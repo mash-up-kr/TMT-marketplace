@@ -268,7 +268,11 @@ mcp__atlassian-ddalkkak__jira_create_issue(
 >
 > **핵심 원칙**: Jira 본문은 짧지만 충분히. 옵션 비교·표·긴 배경은 Confluence로 분리.
 >
-> ⚠️ **체크리스트는 `- [ ]` 대신 `- ⬜` 사용**. Jira는 markdown 체크박스를 인터랙티브하게 렌더링하지 않음. 진행 시 `⬜` → `✅` 로 직접 수정.
+> ⚠️ **체크리스트는 두 가지 방법**:
+> - **인터랙티브 체크박스가 필요하면 → [Step 5.5 ADF taskList 패턴](#step-55-인터랙티브-체크박스-adf-tasklist) 사용** (MCP 후 REST API로 description 재설정)
+> - **간단한 시각만 충분하면 → `- ⬜` 사용** (markdown 그대로, 진행 시 `⬜` → `✅` 수동 변경)
+>
+> 템플릿에서는 `⬜` 표기로 작성. 인터랙티브 필요 시 Step 5.5로 변환.
 
 #### Epic 🏔 (DDK)
 
@@ -388,6 +392,107 @@ mcp__atlassian-ddalkkak__jira_create_issue(
 
 - ✅ 타입별 권장 섹션만, 옵션 비교/표/긴 배경 없음 → 그대로 생성
 - ⚠️ 옵션 비교·긴 분석 들어감 → Step 2.5로 돌아가서 Confluence로 분리, 본문엔 결론만
+
+---
+
+## Step 5.5. 인터랙티브 체크박스 (ADF taskList)
+
+> MCP `jira_create_issue` 의 `description` 파라미터는 markdown만 받음. markdown `- [ ]` 는 Jira에서 인터랙티브 체크박스로 렌더링되지 않음 ([Atlassian MCP Issue #25](https://github.com/atlassian/atlassian-mcp-server/issues/25)). 진짜 클릭 가능한 체크박스가 필요하면 **MCP로 이슈 생성 후 REST API로 description을 ADF JSON으로 재설정**.
+
+### 언제 사용
+
+- 이슈 본문에 4개 이상의 체크리스트 항목이 있고
+- 담당자가 진행 상황을 클릭으로 토글하길 원할 때
+
+체크리스트가 짧거나 (1~3개) 시각만 충분하면 `- ⬜` 그대로 두면 됨.
+
+### 패턴
+
+```python
+# Step 5에서 MCP로 이슈 생성 (체크리스트는 ⬜로 일단)
+issue = mcp__atlassian-ddalkkak__jira_create_issue(
+    project_key="DDK",
+    summary="...",
+    issue_type="Task",
+    assignee="...",
+    description="(체크리스트 포함된 markdown)",
+    additional_fields={"customfield_10147": {"value": "L3"}}
+)
+issue_key = issue["key"]   # 예: "DDK-33"
+
+# Step 5.5에서 REST API로 ADF description 재설정
+# (Atlassian API token 필요 — Confluence 시크릿 문서 참고)
+import json, base64, urllib.request
+
+def adf_text(s, link=None):
+    n = {"type": "text", "text": s}
+    if link:
+        n["marks"] = [{"type": "link", "attrs": {"href": link}}]
+    return n
+
+def adf_para(*content):
+    return {"type": "paragraph", "content": list(content)}
+
+def adf_heading(level, txt):
+    return {"type": "heading", "attrs": {"level": level},
+            "content": [adf_text(txt)]}
+
+def adf_bullet(items):
+    return {"type": "bulletList", "content": [
+        {"type": "listItem", "content": [{"type": "paragraph",
+         "content": item if isinstance(item, list) else [adf_text(item)]}]}
+        for item in items
+    ]}
+
+def adf_tasklist(items, done_idx=None):
+    done_idx = done_idx or []
+    return {"type": "taskList", "attrs": {"localId": "cl-1"}, "content": [
+        {"type": "taskItem",
+         "attrs": {"localId": str(i+1),
+                   "state": "DONE" if i in done_idx else "TODO"},
+         "content": [adf_text(txt)]}
+        for i, txt in enumerate(items)
+    ]}
+
+doc = {"type": "doc", "version": 1, "content": [
+    adf_heading(2, "🎯 목적"),
+    adf_para(adf_text("...")),
+    adf_heading(2, "✅ 체크리스트"),
+    adf_tasklist([
+        "인터뷰이 4명 답변 정리",
+        "핵심 가설 검증 매트릭스 작성",
+        "발견 사항·인용 정리",
+        "MVP 진행 여부 추천 도출",
+    ]),
+    # ... 나머지 섹션
+]}
+
+EMAIL = "wnsvy607@naver.com"
+TOKEN = "<Atlassian API token>"  # claude.local.md 참고
+auth = base64.b64encode(f"{EMAIL}:{TOKEN}".encode()).decode()
+
+req = urllib.request.Request(
+    f"https://ttalkkak.atlassian.net/rest/api/3/issue/{issue_key}",
+    data=json.dumps({"fields": {"description": doc}}).encode(),
+    method="PUT",
+    headers={"Authorization": f"Basic {auth}",
+             "Content-Type": "application/json"}
+)
+urllib.request.urlopen(req)  # HTTP 204 = success
+```
+
+### ADF 노드 치트시트
+
+| 의도 | ADF 노드 |
+|---|---|
+| `## 제목` | `{"type": "heading", "attrs": {"level": 2}, "content": [adf_text("제목")]}` |
+| 문단 | `{"type": "paragraph", "content": [adf_text("...")]}` |
+| 불릿 리스트 | `{"type": "bulletList", "content": [{"type": "listItem", ...}]}` |
+| **체크박스 리스트** | `{"type": "taskList", "attrs": {"localId": "x"}, "content": [{"type": "taskItem", "attrs": {"localId": "1", "state": "TODO"}, "content": [adf_text("...")]}]}` |
+| 링크 | `adf_text("DDK-32", "https://...")` (marks에 link) |
+| 인용 | `{"type": "blockquote", "content": [adf_para(adf_text("..."))]}` |
+
+> ⚠️ `state` 값: `"TODO"` (미완) / `"DONE"` (완료). `localId` 는 식별자, 빈 문자열도 동작.
 
 ### Epic 하위 이슈 연결 (DDK)
 
