@@ -1,0 +1,67 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.cursorignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+dist/
+build/
+.next/
+.nuxt/
+.cache/
+
+# Java / Gradle / Maven
+target/
+.gradle/
+build/
+*.class
+out/
+
+# Secrets / Environment
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+secrets/
+config/local.*
+
+# Claude Code local
+.claude/settings.local.json
+claude.local.md
+CLAUDE.local.md
+.mcp.json
+
+# Misc
+*.log
+logs/
+tmp/
+.tmp/
+coverage/
+.coverage
