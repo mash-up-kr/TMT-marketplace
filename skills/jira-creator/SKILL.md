@@ -16,6 +16,8 @@ Step 1. 프로젝트 · 이슈 타입 결정
     ↓
 Step 2. 컨텍스트 수집 (Jira/Confluence 참조 이슈 있으면)
     ↓
+Step 2.5. Confluence 분리 판단 ⭐ (본문 길어질 것 같으면 페이지 먼저 만들기)
+    ↓
 Step 3. 담당자 · Decision Level · Backup Assignee 확인 (AskUserQuestion)
     ↓
 Step 4. 사용자 최종 확인
@@ -77,6 +79,58 @@ mcp__atlassian-ddalkkak__jira_search(jql="project = DDK AND parent = DDK-9")
 # Confluence 페이지
 mcp__atlassian-ddalkkak__confluence_get_page(page_id="8028173")
 ```
+
+---
+
+## Step 2.5. Confluence 분리 판단 ⭐
+
+> **원칙**: Jira 티켓 = 핵심 트래킹, Confluence = 상세 문서. 본문이 길어질 것 같으면 Confluence 페이지를 먼저 만들고 Jira엔 링크만 남긴다. ([가이드](https://ttalkkak.atlassian.net/wiki/spaces/ttalkkak/pages/18546704#5-jira-vs-confluence-정보-배분))
+
+### 다음 중 **하나라도** 해당하면 Confluence 페이지를 먼저 만든다
+
+- 본문이 **15줄 이상** 으로 늘어날 것 같음
+- **옵션 2개 이상** 비교가 필요함
+- 외부 자료·표·다이어그램이 들어감
+- "이 결정은 왜?" 가 길어짐 (Decision 이슈)
+- 데이터 스키마 / 스펙 / API 설계
+
+### Confluence 페이지 작성 (필요 시)
+
+```python
+mcp__atlassian-ddalkkak__confluence_create_page(
+    space_key="ttalkkak",
+    title="[태그] 제목 — 한 줄 요약",
+    parent_id="<적절한 부모 페이지 ID>",
+    content_format="markdown",
+    content="""
+# [태그] 제목
+
+> 관련 Jira: <링크>  · 작성 YYYY-MM-DD
+
+## 배경
+왜 이게 필요한지
+
+## 옵션 / 분석 / 데이터
+긴 본문은 여기에
+
+## 결정 / 다음 액션
+한두 줄 결론 → 이게 Jira 본문으로 들어감
+
+## 변경 이력
+| 일자 | 변경 | 작성자 |
+"""
+)
+```
+
+→ 응답에서 page URL을 받아서 Jira Description의 "참고" 섹션에 링크.
+
+### Jira만으로 충분한 케이스
+
+- 단순 운영성 작업 (레포 생성, 채널 셋업)
+- 작은 체크리스트만 있으면 끝나는 작업
+- 버그 수정·재현 단계
+
+이런 경우는 Step 2.5 건너뛰고 바로 Step 3.
 
 ---
 
@@ -203,25 +257,30 @@ mcp__atlassian-ddalkkak__jira_create_issue(
 | `[기획]` | `[기획] 투트랙 프로토타입 진행 결정` |
 | `[데이터]` | `[데이터] 목 데이터 스키마 v0.1 (DDK-18)` |
 
-### Description 템플릿
+### Description 템플릿 (짧은 버전 — 권장 기본)
+
+> ⚠️ **핵심 원칙**: Jira 본문은 짧게. 상세는 Confluence로. 본문이 15줄 넘어가면 Step 2.5로 돌아가서 Confluence 페이지 만들기.
 
 ```markdown
 ## 목적
-이 이슈가 풀려는 문제 한 줄
+한 줄
 
-## 작업 내용
-- 무엇을
-- 왜
-
-## 핵심 액션 / 체크리스트
+## 체크리스트
 - [ ] 항목 1
 - [ ] 항목 2
 
 ## 참고
-- 상위 Epic / 관련 이슈 링크
-- 회의록·Confluence 문서 링크
-- 결정 근거 (OPS Decision 이슈 참조)
+- 상세 문서: <Confluence 링크>   ← Step 2.5에서 만든 페이지
+- 상위 Epic: <Jira 링크>
+- 결정 근거: <OPS Decision 이슈 링크>
 ```
+
+### 본문 길이 자가 체크
+
+이슈 생성 직전 본문을 다시 보고:
+
+- ✅ 15줄 이내, 옵션 비교 없음, 표·다이어그램 없음 → 그대로 생성
+- ⚠️ 15줄 초과 또는 옵션 비교 있음 → Step 2.5로 돌아가서 Confluence 페이지로 분리하고 본문을 짧게 만들기
 
 ### Epic 하위 이슈 연결 (DDK)
 
