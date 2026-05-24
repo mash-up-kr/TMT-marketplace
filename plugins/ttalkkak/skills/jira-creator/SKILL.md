@@ -1,3 +1,8 @@
+---
+name: jira-creator
+description: 딸깍팀(Mash-Up 16기) Jira 이슈 생성 워크플로우. OPS(운영·기획·의사결정) 또는 DDK(개발) 프로젝트에 이슈 작성 시 사용. "딸깍 이슈 만들어줘", "OPS Decision 등록", "DDK Task 만들어줘", "ttalkkak Jira 이슈 생성" 같은 요청에 트리거. 타입별 템플릿(Epic/Story/Task/Subtask/Bug/Decision/Idea), Decision Level 필수 처리, 팀원 매핑, Jira vs Confluence 정보 배분 가이드 포함.
+---
+
 # ttalkkak Jira Issue Creator
 
 딸깍팀(Mash-Up 16기) Jira 이슈 생성 스킬. OPS · DDK 프로젝트에 이슈를 올바른 구조로 만들기 위한 가이드.
