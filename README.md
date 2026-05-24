@@ -10,22 +10,38 @@
 - **AI Native 협업**: 스펙·결정·자동화 산출물을 코드로 공유 (spec-first)
 - **운영 자산화**: Jira 알림·문서 자동화·테스트 데이터 등 운영 도구 축적
 
-## 📂 구조 (제안)
+## 📦 Claude Code 마켓플레이스로 설치
+
+```bash
+# 1. 마켓플레이스 등록
+claude plugin marketplace add mash-up-kr/ttalkkak-marketplace
+
+# 2. ttalkkak 플러그인 설치
+claude plugin install ttalkkak@ttalkkak-marketplace
+```
+
+설치 후 Claude Code에서 `/jira-creator` 같은 슬래시 명령으로 스킬 사용 가능.
+
+## 📂 구조
 
 ```
 ttalkkak-marketplace/
-├── skills/              # Claude Code skills (디렉터리당 1개 skill)
-│   └── <skill-name>/
-│       ├── SKILL.md
-│       └── ...
-├── agents/              # AI agent prompts / sub-agent 정의
-├── scripts/             # 자동화 스크립트 (Python, Bash 등)
-├── templates/           # 회의록·Jira·Confluence 등 템플릿
-├── mock-data/           # 데모·시연용 데이터셋
-└── docs/                # 사용법·기여 가이드
+├── .claude-plugin/
+│   └── marketplace.json         # 마켓플레이스 매니페스트
+├── plugins/
+│   └── ttalkkak/                # 메인 플러그인 (팀 공용 스킬 묶음)
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       └── skills/
+│           └── jira-creator/    # 딸깍 Jira 이슈 생성
+│               ├── SKILL.md
+│               └── README.md
+├── mcps/                        # MCP 서버 설정 템플릿 (참고용 문서)
+│   └── configs/atlassian-ddalkkak/
+└── docs/                        # 추가 가이드 (TBD)
 ```
 
-> 세부 구조는 첫 컨트리뷰션을 진행하면서 조정해주세요. 디렉터리는 **필요할 때 만들기**.
+> 새 스킬 추가 시 `plugins/ttalkkak/skills/<name>/SKILL.md` 경로에. 자세히는 [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## 🤝 기여 방법
 
