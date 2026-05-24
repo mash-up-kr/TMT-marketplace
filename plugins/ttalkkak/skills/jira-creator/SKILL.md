@@ -267,6 +267,8 @@ mcp__atlassian-ddalkkak__jira_create_issue(
 > 📋 **상세 템플릿·예시는 [Jira 이슈 타입별 템플릿 · 예시](https://ttalkkak.atlassian.net/wiki/spaces/ttalkkak/pages/18546754)** 참고.
 >
 > **핵심 원칙**: Jira 본문은 짧지만 충분히. 옵션 비교·표·긴 배경은 Confluence로 분리.
+>
+> ⚠️ **체크리스트는 `- [ ]` 대신 `- ⬜` 사용**. Jira는 markdown 체크박스를 인터랙티브하게 렌더링하지 않음. 진행 시 `⬜` → `✅` 로 직접 수정.
 
 #### Epic 🏔 (DDK)
 
@@ -295,9 +297,9 @@ mcp__atlassian-ddalkkak__jira_create_issue(
 **As a** [사용자]  **I want** [기능]  **So that** [가치]
 
 ## 승인 기준
-- [ ] 시나리오 1: [상황]에서 [동작]하면 [결과]
-- [ ] 시나리오 2:
-- [ ] 시나리오 3:
+- ⬜ 시나리오 1: [상황]에서 [동작]하면 [결과]
+- ⬜ 시나리오 2:
+- ⬜ 시나리오 3:
 
 ## 🔗 관련
 - 상위 Epic / 디자인 / 의존
@@ -313,8 +315,8 @@ mcp__atlassian-ddalkkak__jira_create_issue(
 3~5줄
 
 ## ✅ 체크리스트
-- [ ] 실행 가능 단위 1
-- [ ] 실행 가능 단위 2
+- ⬜ 실행 가능 단위 1
+- ⬜ 실행 가능 단위 2
 
 ## 🔗 관련
 - 상위 Epic / 상세 문서(Confluence) / 결정 근거
@@ -327,7 +329,7 @@ mcp__atlassian-ddalkkak__jira_create_issue(
 한 줄
 
 ## 체크리스트
-- [ ] 단일 산출물 1
+- ⬜ 단일 산출물 1
 
 ## 🔗 부모: [DDK-XX](...)
 ```
