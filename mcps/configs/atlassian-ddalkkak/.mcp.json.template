@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "atlassian-ddalkkak": {
+      "command": "podman",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e", "CONFLUENCE_URL=https://ttalkkak.atlassian.net/wiki",
+        "-e", "CONFLUENCE_USERNAME=<YOUR_EMAIL>",
+        "-e", "CONFLUENCE_API_TOKEN",
+        "-e", "JIRA_URL=https://ttalkkak.atlassian.net",
+        "-e", "JIRA_USERNAME=<YOUR_EMAIL>",
+        "-e", "JIRA_API_TOKEN",
+        "ghcr.io/sooperset/mcp-atlassian:latest"
+      ],
+      "env": {
+        "CONFLUENCE_API_TOKEN": "<YOUR_ATLASSIAN_API_TOKEN>",
+        "JIRA_API_TOKEN": "<YOUR_ATLASSIAN_API_TOKEN>"
+      }
+    }
+  }
+}
