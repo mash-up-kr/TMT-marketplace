@@ -25,7 +25,7 @@ OPS에 Decision 이슈 만들어줘.
 
 ## 주의사항
 
-- MCP `mcp__atlassian-ddalkkak` 연결 필수
+- MCP `mcp__atlassian` 연결 필수
 - DDK 이슈는 Decision Level 필수 (미설정 시 생성 실패)
 - Assignee는 반드시 **display name** 사용 (account ID · email 사용 시 silent no-op)
 

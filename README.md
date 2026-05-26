@@ -40,7 +40,7 @@ ttalkkak-marketplace/             # GitHub repo (URL은 유지)
 │                   ├── jira_adf.py
 │                   └── README.md
 ├── mcps/                         # MCP 서버 설정 템플릿 (참고용 문서)
-│   └── configs/atlassian-ddalkkak/
+│   └── configs/atlassian/
 └── docs/                         # 추가 가이드 (TBD)
 ```
 
