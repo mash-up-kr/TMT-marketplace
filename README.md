@@ -13,35 +13,38 @@
 ## 📦 Claude Code 마켓플레이스로 설치
 
 ```bash
-# 1. 마켓플레이스 등록
+# 1. 마켓플레이스 등록 (manifest의 name = team-marketplace)
 claude plugin marketplace add mash-up-kr/ttalkkak-marketplace
 
-# 2. ttalkkak 플러그인 설치
-claude plugin install ttalkkak@ttalkkak-marketplace
+# 2. team-tools 플러그인 설치
+claude plugin install team-tools@team-marketplace
 ```
 
-설치 후 Claude Code에서 `/jira-creator` 같은 슬래시 명령으로 스킬 사용 가능.
+설치 후 Claude Code에서 `/team-tools:jira-creator` 또는 자연어로 호출.
 
 ## 📂 구조
 
 ```
-ttalkkak-marketplace/
+ttalkkak-marketplace/             # GitHub repo (URL은 유지)
 ├── .claude-plugin/
-│   └── marketplace.json         # 마켓플레이스 매니페스트
+│   └── marketplace.json          # name: team-marketplace
 ├── plugins/
-│   └── ttalkkak/                # 메인 플러그인 (팀 공용 스킬 묶음)
+│   └── team-tools/               # 메인 플러그인 (팀 공용 스킬 묶음)
 │       ├── .claude-plugin/
-│       │   └── plugin.json
+│       │   └── plugin.json       # name: team-tools
 │       └── skills/
-│           └── jira-creator/    # 딸깍 Jira 이슈 생성
+│           └── jira-creator/     # Jira 이슈 생성 (OPS·DDK)
 │               ├── SKILL.md
-│               └── README.md
-├── mcps/                        # MCP 서버 설정 템플릿 (참고용 문서)
+│               ├── README.md
+│               └── scripts/
+│                   ├── jira_adf.py
+│                   └── README.md
+├── mcps/                         # MCP 서버 설정 템플릿 (참고용 문서)
 │   └── configs/atlassian-ddalkkak/
-└── docs/                        # 추가 가이드 (TBD)
+└── docs/                         # 추가 가이드 (TBD)
 ```
 
-> 새 스킬 추가 시 `plugins/ttalkkak/skills/<name>/SKILL.md` 경로에. 자세히는 [CONTRIBUTING.md](./CONTRIBUTING.md).
+> 새 스킬 추가 시 `plugins/team-tools/skills/<name>/SKILL.md` 경로에. 자세히는 [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## 🤝 기여 방법
 
