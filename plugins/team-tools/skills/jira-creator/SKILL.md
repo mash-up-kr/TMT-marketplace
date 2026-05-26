@@ -268,11 +268,9 @@ mcp__atlassian__jira_create_issue(
 >
 > **핵심 원칙**: Jira 본문은 짧지만 충분히. 옵션 비교·표·긴 배경은 Confluence로 분리.
 >
-> ⚠️ **체크리스트는 두 가지 방법**:
-> - **인터랙티브 체크박스가 필요하면 → [Step 5.5 ADF taskList 패턴](#step-55-인터랙티브-체크박스-adf-tasklist) 사용** (MCP 후 REST API로 description 재설정)
-> - **간단한 시각만 충분하면 → `- ⬜` 사용** (markdown 그대로, 진행 시 `⬜` → `✅` 수동 변경)
->
-> 템플릿에서는 `⬜` 표기로 작성. 인터랙티브 필요 시 Step 5.5로 변환.
+> ⚠️ **체크리스트는 `- [ ]` 표기로 통일**. 단, Jira는 markdown 체크박스를 인터랙티브 렌더링하지 않음 ([MCP Issue #25](https://github.com/atlassian/atlassian-mcp-server/issues/25)). 두 가지 처리 방법:
+> - **기본 (권장)** → 이슈 생성 후 [Step 5.5 `scripts/jira_adf.py`](#step-55-인터랙티브-체크박스-adf-tasklist) 로 ADF taskList 변환 (인터랙티브 체크박스)
+> - **빠른 fallback** → 본인이 `- [ ]` → `- ⬜` 로 치환 후 생성 (시각만, 클릭 X)
 
 #### Epic 🏔 (DDK)
 
@@ -301,9 +299,9 @@ mcp__atlassian__jira_create_issue(
 **As a** [사용자]  **I want** [기능]  **So that** [가치]
 
 ## 승인 기준
-- ⬜ 시나리오 1: [상황]에서 [동작]하면 [결과]
-- ⬜ 시나리오 2:
-- ⬜ 시나리오 3:
+- [ ] 시나리오 1: [상황]에서 [동작]하면 [결과]
+- [ ] 시나리오 2:
+- [ ] 시나리오 3:
 
 ## 🔗 관련
 - 상위 Epic / 디자인 / 의존
@@ -319,8 +317,8 @@ mcp__atlassian__jira_create_issue(
 3~5줄
 
 ## ✅ 체크리스트
-- ⬜ 실행 가능 단위 1
-- ⬜ 실행 가능 단위 2
+- [ ] 실행 가능 단위 1
+- [ ] 실행 가능 단위 2
 
 ## 🔗 관련
 - 상위 Epic / 상세 문서(Confluence) / 결정 근거
@@ -333,7 +331,7 @@ mcp__atlassian__jira_create_issue(
 한 줄
 
 ## 체크리스트
-- ⬜ 단일 산출물 1
+- [ ] 단일 산출물 1
 
 ## 🔗 부모: [DDK-XX](...)
 ```
@@ -404,7 +402,7 @@ mcp__atlassian__jira_create_issue(
 - 이슈 본문에 4개 이상의 체크리스트 항목이 있고
 - 담당자가 진행 상황을 클릭으로 토글하길 원할 때
 
-체크리스트가 짧거나 (1~3개) 시각만 충분하면 `- ⬜` 그대로 두면 됨.
+체크리스트가 짧거나 (1~3개) 시각만 충분하면 `- [ ]` → `- ⬜` 수동 치환으로 끝.
 
 ### 사용법
 
