@@ -1,23 +1,23 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "ttalkkak-marketplace",
+  "name": "team-marketplace",
   "owner": {
     "name": "Mash-Up 16th ttalkkak team"
   },
   "metadata": {
-    "description": "딸깍팀 공용 Claude Code 스킬·에이전트·자동화 마켓플레이스",
-    "version": "0.1.0"
+    "description": "팀 공용 Claude Code 스킬·에이전트·자동화 마켓플레이스",
+    "version": "0.2.0"
   },
   "plugins": [
     {
-      "name": "ttalkkak",
-      "description": "딸깍팀 공용 스킬 모음 — Jira 이슈 생성(OPS·DDK) 등",
-      "version": "0.1.0",
+      "name": "team-tools",
+      "description": "팀 공용 스킬 모음 — Jira 이슈 생성(OPS·DDK) 등",
+      "version": "0.2.0",
       "author": {
         "name": "이준표",
         "email": "wnsvy607@naver.com"
       },
-      "source": "./plugins/ttalkkak",
+      "source": "./plugins/team-tools",
       "category": "productivity"
     }
   ]
