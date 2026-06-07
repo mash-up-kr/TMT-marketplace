@@ -138,7 +138,7 @@ def parse_markdown(md: str) -> dict:
         # 헤딩
         m = _HEADING_RE.match(line)
         if m:
-            content.append(heading(len(m.group(1)), m.group(2)))
+            content.append(heading(len(m.group(1)), _parse_inline(m.group(2))))
             i += 1
             continue
 
