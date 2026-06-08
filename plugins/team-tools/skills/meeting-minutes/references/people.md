@@ -1,8 +1,8 @@
-# People And Atlassian Accounts
+# 인물 및 Atlassian 계정 (People And Atlassian Accounts)
 
-Volatile org data for the team. Edit this file (not `spec.md`) when a member, accountId, displayName, or alias changes. `spec.md` owns the policy that uses this table; this file owns the data.
+팀의 휘발성 조직 데이터입니다. 팀원, accountId, displayName, 또는 별칭이 바뀌면 (`spec.md`가 아니라) 이 파일을 수정하세요. `spec.md`는 이 표를 사용하는 정책을 소유하고, 이 파일은 데이터를 소유합니다.
 
-| Name | Atlassian displayName | Jira accountId | Aliases / common STT errors |
+| 이름 | Atlassian displayName | Jira accountId | 별칭 / 흔한 STT 오류 |
 |---|---|---|---|
 | 이창우 | changchangwoo119 | `712020:69ebe92d-f78e-4b83-9c45-639435e36b74` | 창후, 창호, 창우 형, 창호영 |
 | 이준표 | Dradnats | `712020:cdb6b0e7-8a68-4e9d-9d79-511f92898ad6` | 준표, 준포, dradnats |
@@ -13,11 +13,11 @@ Volatile org data for the team. Edit this file (not `spec.md`) when a member, ac
 | 정혜인 | hyein396 | `712020:c165ade4-ad82-416f-b24e-8d96ebd3e732` | 혜인, 해인, hyein396 |
 | 장민서 | Minseo Jang | `712020:eba24041-39c7-46a8-a960-7581cb007de3` | 민서, minseo, minseo jang |
 
-## Account rules
+## 계정 규칙 (Account rules)
 
-- Prefer the table accountId over fresh lookup.
-- Put Jira assignees in `assignee_account_id`, not in display-name fields.
-- Use ADF mention with `attrs.id=<accountId>` and `attrs.text=@<displayName>`.
-- Use Confluence HTML mention as `<span data-type="mention" data-user-id="<accountId>">@<displayName></span>`.
-- If an owner is not in the table or lookup returns multiple candidates, ask the user before Jira creation.
-- An alias that could match more than one row (a shared name fragment) must not be auto-assigned — see `spec.md` Name Normalization → Ambiguous tokens.
+- 새 조회보다 표의 accountId를 선호.
+- Jira assignee는 display-name 필드가 아니라 `assignee_account_id`에 넣기.
+- ADF 멘션은 `attrs.id=<accountId>`와 `attrs.text=@<displayName>`를 사용.
+- Confluence HTML 멘션은 `<span data-type="mention" data-user-id="<accountId>">@<displayName></span>` 형태로 사용.
+- 담당자가 표에 없거나 조회가 여러 후보를 반환하면 Jira 생성 전에 사용자에게 묻기.
+- 둘 이상의 행과 매칭될 수 있는 별칭(공유된 이름 일부)은 자동 할당 금지 — `spec.md` 이름 정규화 → 모호한 토큰 참고.

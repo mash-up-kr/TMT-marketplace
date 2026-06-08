@@ -1,13 +1,13 @@
 interface:
-  display_name: "Meeting to Jira"
+  display_name: "회의록 → Jira"
   short_description: "회의록을 Confluence와 Jira 액션 티켓으로 변환"
-  default_prompt: "Use $meeting-minutes to turn this meeting transcript or Confluence page into approved meeting notes and Jira action tickets."
+  default_prompt: "$meeting-minutes 를 사용해 이 회의 대본이나 Confluence 페이지를 승인된 회의록과 Jira 액션 티켓으로 만들어줘."
 
 dependencies:
   tools:
     - type: "mcp"
       value: "atlassian"
-      description: "Read/write ttalkkak Confluence pages and Jira issues"
+      description: "ttalkkak Confluence 페이지와 Jira 이슈 읽기/쓰기"
 
 policy:
   allow_implicit_invocation: true

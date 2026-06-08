@@ -1,43 +1,43 @@
-# meeting-minutes Canonical Spec
+# meeting-minutes 정식 스펙 (Canonical Spec)
 
-This file is the single source of truth for the skill. Stage files may describe procedure, but this spec owns names, accounts, gates, schemas, routing, and safety rules.
+이 파일은 스킬의 단일 진실원입니다. Stage 파일은 절차를 기술할 수 있지만, 이 스펙이 이름·계정·게이트·스키마·라우팅·안전 규칙을 소유합니다.
 
-## Table of Contents
+## 목차
 
-- Canonical flow
-- Startup intake
-- Confirmation gates
-- People and Atlassian accounts
-- Name normalization
-- Meeting markdown schema
-- DDK / OPS routing
-- Jira creation contract
-- Validation checklist
-- Tool constraints
+- 정식 흐름(Canonical flow)
+- 시작 인테이크(Startup intake)
+- 확인 게이트(Confirmation gates)
+- 인물 및 Atlassian 계정
+- 이름 정규화
+- 회의 마크다운 스키마
+- DDK / OPS 라우팅
+- Jira 생성 계약
+- 검증 체크리스트
+- 툴 제약
 
-## Canonical Flow
+## 정식 흐름 (Canonical Flow)
 
-1. Classify input as transcript or Confluence meeting page. (Audio recordings are out of scope — see SKILL.md; the user must transcribe externally first.)
-2. Collect startup intake before any stage work.
-3. Normalize names from the loaded transcript.
-4. Produce meeting markdown using existing Confluence conventions when available.
-5. Confirm action-item split and routing.
-6. Confirm the full meeting markdown.
-7. Fetch/create Confluence page as needed.
-8. Parse action items, map accountIds, search duplicates, and present a Jira plan.
-9. Create/link/skip Jira issues only after final confirmation.
+1. 입력을 대본 또는 Confluence 회의 페이지로 분류. (오디오 녹음은 범위 밖 — SKILL.md 참고; 사용자가 먼저 외부에서 전사해야 함.)
+2. 어떤 stage 작업보다 먼저 시작 인테이크 수집.
+3. 로드된 대본에서 이름 정규화.
+4. 가능하면 기존 Confluence 컨벤션을 사용해 회의 마크다운 생성.
+5. 액션 아이템 분리와 라우팅 확인.
+6. 전체 회의 마크다운 확인.
+7. 필요에 따라 Confluence 페이지 가져오기/생성.
+8. 액션 아이템 파싱, accountId 매핑, 중복 검색, Jira 계획 제시.
+9. 최종 확인 후에만 Jira 이슈 생성/링크/스킵.
 
-## Startup Intake
+## 시작 인테이크 (Startup Intake)
 
-Ask these three questions immediately after input classification and before Stage B/C.
+입력 분류 직후, Stage B/C 이전에 이 세 가지 질문을 하세요.
 
-| Key | Question | Default |
+| Key | 질문 | 기본값 |
 |---|---|---|
-| `meeting_date` | 오늘 또는 이 회의 날짜가 몇일인가요? | If the transcript/page has date clues (mentioned dates, "next week", scheduled items), propose a date consistent with them; otherwise current system date. Pasted transcripts are often of past meetings, so do not assume today blindly. |
-| `meeting_location` | 어디서 회의했나요? 예: Google Meet, Discord, 오프라인, Zoom | Infer a candidate from input only as a suggestion |
-| `meeting_topic` | 회의 주제명은 무엇인가요? | Infer a candidate from filename/page title only as a suggestion |
+| `meeting_date` | 오늘 또는 이 회의 날짜가 몇일인가요? | 대본/페이지에 날짜 단서(언급된 날짜, "다음 주", 예정된 항목)가 있으면 그에 부합하는 날짜를 제안; 없으면 현재 시스템 날짜. 붙여넣은 대본은 과거 회의인 경우가 많으니 무턱대고 오늘로 가정하지 말 것. |
+| `meeting_location` | 어디서 회의했나요? 예: Google Meet, Discord, 오프라인, Zoom | 입력에서 후보를 제안으로만 추론 |
+| `meeting_topic` | 회의 주제명은 무엇인가요? | 파일명/페이지 제목에서 후보를 제안으로만 추론 |
 
-Summarize before continuing:
+계속하기 전에 요약:
 
 ```text
 사전 정보 확인:
@@ -46,54 +46,54 @@ Summarize before continuing:
 - 주제: <meeting_topic>
 ```
 
-Use these values in meeting markdown frontmatter, meeting title, Confluence title, Jira descriptions, and final summaries.
+이 값들을 회의 마크다운 frontmatter, 회의 제목, Confluence 제목, Jira 설명, 최종 요약에 사용하세요.
 
-## Confirmation Gates
+## 확인 게이트 (Confirmation Gates)
 
-Use the best available confirmation surface. In Codex App, ask concise plain-text questions if structured input is unavailable.
+가능한 최선의 확인 수단을 사용하세요. Codex App에서는 구조화된 입력이 없으면 간결한 평문 질문을 하세요.
 
-| Gate | When | Required User Decision |
+| Gate | 시점 | 필요한 사용자 결정 |
 |---|---|---|
-| Intake | Before stage execution | Date, location, topic |
-| Name Review | After transcript load when names are uncertain | Name corrections and extra aliases |
-| B-G1 | After action extraction | Split policy, project routing, owner/due-date uncertainty |
-| B-G2 | Before Confluence/Jira | Full markdown approval; no summary-only approval |
-| C-G1 | Before Jira writes | Create/link/skip plan, projectKey, assignee accountIds, watchers, Epic/link handling |
+| Intake | stage 실행 전 | 날짜, 장소, 주제 |
+| Name Review | 대본 로드 후 이름이 불확실할 때 | 이름 교정 및 추가 별칭 |
+| B-G1 | 액션 추출 후 | 분리 정책, 프로젝트 라우팅, 담당자/기한 불확실성 |
+| B-G2 | Confluence/Jira 전 | 전체 마크다운 승인; 요약만으로는 승인 불가 |
+| C-G1 | Jira 쓰기 전 | 생성/링크/스킵 계획, projectKey, assignee accountId, watcher, Epic/링크 처리 |
 
-Never call `createJiraIssue`, `editJiraIssue`, `transitionJiraIssue`, `createIssueLink`, or `addCommentToJiraIssue` before C-G1 passes.
+C-G1을 통과하기 전에는 `createJiraIssue`, `editJiraIssue`, `transitionJiraIssue`, `createIssueLink`, `addCommentToJiraIssue`를 절대 호출하지 마세요.
 
-## People And Atlassian Accounts
+## 인물 및 Atlassian 계정 (People And Atlassian Accounts)
 
-The canonical people/account table and account rules live in `references/people.md` (volatile org data, kept separate so a teammate/accountId change does not touch policy). Read it whenever you need to resolve an owner, accountId, displayName, or alias. The rules below in this spec (gates, routing, Jira contract, validation) reference that table by role, not by copying it.
+정식 인물/계정 표와 계정 규칙은 `references/people.md`에 있습니다(휘발성 조직 데이터로, 팀원/accountId 변경이 정책을 건드리지 않도록 분리). 담당자, accountId, displayName, 별칭을 해석해야 할 때마다 그 파일을 읽으세요. 이 스펙의 아래 규칙들(게이트, 라우팅, Jira 계약, 검증)은 그 표를 복사하지 않고 역할로 참조합니다.
 
-## Name Normalization
+## 이름 정규화 (Name Normalization)
 
-Normalize names after transcript load and before B-G2:
+대본 로드 후 B-G2 전에 이름을 정규화하세요:
 
-1. List detected names.
-2. Map obvious aliases/STT errors to canonical names.
-3. Show `raw -> canonical` corrections.
-4. Leave low-confidence names as `확인 필요`.
-5. Apply confirmed corrections consistently to the transcript text, meeting markdown, and Jira plan.
+1. 감지된 이름을 나열.
+2. 명백한 별칭/STT 오류를 정식 이름으로 매핑.
+3. `raw -> canonical` 교정을 표시.
+4. 신뢰도 낮은 이름은 `확인 필요`로 남김.
+5. 확인된 교정을 대본 텍스트, 회의 마크다운, Jira 계획에 일관되게 적용.
 
-Do not normalize a new person into a known team member solely because the name is similar.
+이름이 비슷하다는 이유만으로 새로운 사람을 알려진 팀원으로 정규화하지 마세요.
 
-### Ambiguous tokens
+### 모호한 토큰 (Ambiguous tokens)
 
-Some short name tokens can match more than one member (for example, a shared given-name fragment). When a detected token could map to two or more canonical people, do not auto-assign it. Mark it `확인 필요` and ask the user, even if one mapping seems more likely. Silent disambiguation here causes wrong Jira assignees, which is expensive to undo.
+일부 짧은 이름 토큰은 두 명 이상과 매칭될 수 있습니다(예: 공유된 이름 일부). 감지된 토큰이 둘 이상의 정식 인물에 매핑될 수 있으면 자동 할당하지 마세요. 한 매핑이 더 그럴듯해 보여도 `확인 필요`로 표시하고 사용자에게 물으세요. 여기서의 조용한 구분(silent disambiguation)은 잘못된 Jira assignee를 만들고, 되돌리는 비용이 큽니다.
 
-### Attendee vs mention
+### 참석자 vs 언급 (Attendee vs mention)
 
-The frontmatter `attendees` list must reflect who was actually in the meeting, not everyone whose name appears.
+frontmatter `attendees` 목록은 이름이 등장한 모든 사람이 아니라 실제로 회의에 있었던 사람을 반영해야 합니다.
 
-- A person who speaks in the transcript is an attendee.
-- A person who is only referred to in the third person (e.g., "혜인이가 정리해준 것") is a mention, not necessarily an attendee.
-- An explicit "오늘 없고 / 불참 / 못 왔다" marks an absentee.
-- When attendance is unclear, mark the person `확인 필요` and confirm at the Name Review or B-G1 gate rather than guessing. Attendance is hard to infer from a transcript alone, so prefer asking.
+- 대본에서 발언하는 사람은 참석자입니다.
+- 3인칭으로만 언급되는 사람(예: "혜인이가 정리해준 것")은 언급이며 반드시 참석자는 아닙니다.
+- 명시적인 "오늘 없고 / 불참 / 못 왔다"는 불참자를 표시합니다.
+- 참석 여부가 불분명하면 추측하지 말고 그 사람을 `확인 필요`로 표시하고 Name Review 또는 B-G1 게이트에서 확인하세요. 대본만으로 참석을 추론하기 어려우니 묻는 것을 선호하세요.
 
-## Meeting Markdown Schema
+## 회의 마크다운 스키마 (Meeting Markdown Schema)
 
-Required frontmatter:
+필수 frontmatter:
 
 ```yaml
 ---
@@ -106,7 +106,7 @@ attendees: [<canonical names>]
 ---
 ```
 
-Required action table:
+필수 액션 표:
 
 ```markdown
 ## 🎯 액션 아이템
@@ -116,82 +116,82 @@ Required action table:
 | 1 | ... | DDK/OPS/프로젝트 미정 | 이름 또는 (미정) | YYYY-MM-DD 또는 미정 | TODO/DONE/진행중 |
 ```
 
-Keep source quotes/timestamps in the B-G1 review table, but remove source-only columns from final meeting markdown unless the existing Confluence convention requires them.
+소스 인용/타임스탬프는 B-G1 검토 표에 유지하되, 기존 Confluence 컨벤션이 요구하지 않는 한 최종 회의 마크다운에서는 소스 전용 컬럼을 제거하세요.
 
-## DDK / OPS Routing
+## DDK / OPS 라우팅 (DDK / OPS Routing)
 
-| Candidate | Use For |
+| 후보 | 용도 |
 |---|---|
-| `DDK` | Product features, UX/UI, implementation, QA/verification, design/prototype, data/technical decisions, work that changes the product artifact |
-| `OPS` | Operations, scheduling, meeting prep, documentation cleanup, communication, coordination, process management, work tracked as operations |
-| `프로젝트 미정` | Ambiguous work; do not create Jira until user chooses DDK or OPS |
+| `DDK` | 제품 기능, UX/UI, 구현, QA/검증, 디자인/프로토타입, 데이터/기술 결정, 제품 산출물을 바꾸는 작업 |
+| `OPS` | 운영, 일정 관리, 회의 준비, 문서 정리, 커뮤니케이션, 조율, 프로세스 관리, 운영으로 추적되는 작업 |
+| `프로젝트 미정` | 모호한 작업; 사용자가 DDK 또는 OPS를 선택하기 전에는 Jira 생성 금지 |
 
-Routing is a candidate, not a final decision, until C-G1.
+라우팅은 C-G1 전까지는 최종 결정이 아니라 후보입니다.
 
-### Skip candidates (surface, do not silently create)
+### 스킵 후보 (드러내되, 조용히 생성하지 말 것)
 
-Not every line in a meeting is a Jira ticket. Flag these as skip/handle candidates at B-G1 and let the user decide, rather than minting tickets automatically:
+회의의 모든 줄이 Jira 티켓은 아닙니다. 다음은 자동으로 티켓을 만들지 말고 B-G1에서 스킵/처리 후보로 표시해 사용자가 결정하게 하세요:
 
-- Vague homework with no single owner (e.g., "각자 고민해오기" assigned to everyone) — offer: one tracking ticket with a named owner, per-person tickets, or notes-only.
-- Non-product/social items (e.g., team outing/MT logistics) — confirm whether they belong in Jira at all before routing to OPS.
-- Pure discussion or TBD with no committed action — keep in the meeting doc, not Jira.
+- 단일 담당자가 없는 모호한 숙제(예: 모두에게 배정된 "각자 고민해오기") — 제안: 담당자가 지정된 추적 티켓 하나, 인별 티켓, 또는 노트만.
+- 비제품/소셜 항목(예: 팀 회식/MT 준비) — OPS로 라우팅하기 전에 Jira에 넣을지 자체를 확인.
+- 약속된 액션이 없는 순수 논의 또는 TBD — Jira가 아니라 회의 문서에 유지.
 
-The goal is consistency: the user should be asked the same kinds of questions every run, not left to your ad-hoc judgment.
+목표는 일관성입니다: 사용자는 매 실행마다 같은 종류의 질문을 받아야 하며, 즉흥적 판단에 맡겨져선 안 됩니다.
 
-## Jira Creation Contract
+## Jira 생성 계약 (Jira Creation Contract)
 
-For every Jira candidate, build a plan row before writes:
+모든 Jira 후보에 대해 쓰기 전에 계획 행을 만드세요:
 
-| Field | Rule |
+| 필드 | 규칙 |
 |---|---|
-| `projectKey` | `DDK` or `OPS` only after confirmation |
+| `projectKey` | 확인 후에만 `DDK` 또는 `OPS` |
 | `issueTypeName` | `작업` |
-| `summary` | Use original action text; keep it concise |
-| `assignee_account_id` | Required unless user explicitly approves unassigned |
-| `parent` | Same-project parent only |
-| `duedate` | ISO date or omit when unknown |
-| `customfield_10147` | Required: `{"value": "L3"}` for action items |
-| `description` | Include action, decision basis, meeting link, meeting location/topic, related Epic/source |
+| `summary` | 원래 액션 텍스트 사용; 간결하게 유지 |
+| `assignee_account_id` | 사용자가 미할당을 명시적으로 승인하지 않는 한 필수 |
+| `parent` | 동일 프로젝트 parent만 |
+| `duedate` | ISO 날짜 또는 불명 시 생략 |
+| `customfield_10147` | 필수: 액션 아이템에는 `{"value": "L3"}` |
+| `description` | 액션, 결정 근거, 회의 링크, 회의 장소/주제, 관련 Epic/소스 포함 |
 
-Cross-project rule:
+교차 프로젝트 규칙:
 
-- DDK issue under DDK Epic: use `parent` when confirmed.
-- OPS issue related to DDK Epic: create OPS issue in OPS, then `createIssueLink` with `Relates`.
+- DDK Epic 하위의 DDK 이슈: 확인되면 `parent` 사용.
+- DDK Epic과 관련된 OPS 이슈: OPS에 OPS 이슈를 생성한 뒤 `Relates`로 `createIssueLink`.
 
-Duplicate rule:
+중복 규칙:
 
-- Search recent DDK/OPS issues by assignee before creating.
-- Treat "본인 담당분 별도 과제", "이미 진행 중", "DONE", and similar notes as duplicate risk.
-- Present duplicates in C-G1 and default to skip/link rather than duplicate creation.
+- 생성 전에 assignee로 최근 DDK/OPS 이슈를 검색.
+- "본인 담당분 별도 과제", "이미 진행 중", "DONE", 유사한 노트는 중복 위험으로 취급.
+- C-G1에서 중복을 제시하고 중복 생성보다 스킵/링크를 기본값으로.
 
-Watcher rule:
+Watcher 규칙:
 
-- The default is no watchers. Add them only when the meeting names a non-assignee who must be kept in the loop (e.g., a reviewer, a pair owner, a lead who asked to be notified).
-- Propose the watcher list explicitly at C-G1 with accountIds; never add watchers silently.
-- Add watcher mentions via `addCommentToJiraIssue(contentFormat="adf")` using ADF mention `attrs.id=<accountId>`. If no watcher is warranted, say so in the final summary so the omission is visible, not forgotten.
+- 기본값은 watcher 없음. 회의가 계속 알려야 할 비-assignee(예: 리뷰어, 페어 담당자, 알림을 요청한 리드)를 지명한 경우에만 추가.
+- C-G1에서 accountId와 함께 watcher 목록을 명시적으로 제안; watcher를 조용히 추가하지 말 것.
+- watcher 멘션은 `addCommentToJiraIssue(contentFormat="adf")`로 ADF 멘션 `attrs.id=<accountId>`를 사용해 추가. watcher가 필요 없으면 최종 요약에 그렇다고 명시해 누락이 잊히지 않고 보이게.
 
-## Validation Checklist
+## 검증 체크리스트 (Validation Checklist)
 
-Before B-G2:
+B-G2 전:
 
-- Names are canonical or explicitly marked `확인 필요`.
-- No action owner conflicts with source quote.
-- Action table has required columns and valid values.
-- `프로젝트 미정` rows are highlighted.
-- DONE items are not counted as new ticket candidates.
+- 이름이 정식이거나 명시적으로 `확인 필요`로 표시됨.
+- 액션 담당자가 소스 인용과 충돌하지 않음.
+- 액션 표에 필수 컬럼과 유효한 값이 있음.
+- `프로젝트 미정` 행이 강조됨.
+- DONE 항목이 신규 티켓 후보로 집계되지 않음.
 
-Before C-G1:
+C-G1 전:
 
-- Every create candidate has `projectKey`, assignee accountId or approved unassigned state, due-date handling, duplicate handling, and parent/link strategy.
-- OPS candidates are not assigned a DDK parent.
-- Jira writes are not planned for `프로젝트 미정`.
-- Watcher mentions use accountIds.
+- 모든 생성 후보에 `projectKey`, assignee accountId 또는 승인된 미할당 상태, 기한 처리, 중복 처리, parent/링크 전략이 있음.
+- OPS 후보에 DDK parent가 배정되지 않음.
+- `프로젝트 미정`에 Jira 쓰기가 계획되지 않음.
+- watcher 멘션이 accountId를 사용함.
 
-## Tool Constraints
+## 툴 제약 (Tool Constraints)
 
-Use the available Atlassian MCP tools by their actual names in this environment:
+이 환경에서 사용 가능한 Atlassian MCP 툴을 실제 이름으로 사용하세요:
 
 - Confluence: `searchConfluenceUsingCql`, `getConfluencePage`, `createConfluencePage`, `updateConfluencePage`, `createConfluenceFooterComment`
 - Jira: `lookupJiraAccountId`, `searchJiraIssuesUsingJql`, `getJiraIssue`, `createJiraIssue`, `editJiraIssue`, `addCommentToJiraIssue`, `createIssueLink`, `transitionJiraIssue`, `getTransitionsForJiraIssue`
 
-If a space ID cannot be discovered from a provided page or known option, ask the user for the Confluence space/parent instead of inventing one.
+제공된 페이지나 알려진 옵션에서 space ID를 찾을 수 없으면, 임의로 만들지 말고 사용자에게 Confluence space/parent를 물으세요.
