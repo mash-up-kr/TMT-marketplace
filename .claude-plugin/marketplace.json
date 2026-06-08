@@ -12,7 +12,7 @@
     {
       "name": "team-tools",
       "description": "팀 공용 스킬 모음 — Jira 이슈 생성(OPS·DDK) 등",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": {
         "name": "이준표",
         "email": "wnsvy607@naver.com"
