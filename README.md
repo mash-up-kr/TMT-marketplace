@@ -55,6 +55,55 @@ ttalkkak-marketplace/             # GitHub repo (URL은 유지)
 
 자세한 내용은 [CONTRIBUTING.md](./CONTRIBUTING.md) 참고.
 
+## 🔢 버저닝 정책
+
+마켓플레이스(`marketplace.json`)와 각 플러그인(`plugin.json`)의 버전은 **독립적**으로 관리합니다. 둘 다 [semver](https://semver.org/lang/ko/) 따름.
+
+### 플러그인 버전 — `plugins/<name>/.claude-plugin/plugin.json`
+
+사용자 측 캐시(`~/.claude/plugins/cache/...`) 무효화 기준. **버전 숫자를 올리지 않으면 `/plugin marketplace update` 해도 사용자 캐시가 갱신되지 않습니다.**
+
+| Bump | 언제 | 예시 |
+|---|---|---|
+| **patch** (0.0.**X**) | 사용자가 보는 동작·인터페이스 동일 | SKILL.md 문구 수정, 버그픽스, 내부 리네임, 스크립트 리팩터링 |
+| **minor** (0.**X**.0) | 새 기능 추가 (깨지지 않음) | 새 스킬·커맨드·MCP 템플릿 추가, 기존 스킬에 새 옵션 |
+| **major** (**X**.0.0) | 깨지는 변경 | 스킬 이름·네임스페이스 변경, 필수 인자 추가/제거, MCP 서버 키 변경, 폴더 구조 재편 |
+
+### 마켓플레이스 버전 — `.claude-plugin/marketplace.json`
+
+카탈로그 자체의 메타. 플러그인 내부 변경과 **독립**. 카탈로그 라인업이 바뀔 때만 bump.
+
+| Bump | 언제 | 예시 |
+|---|---|---|
+| **patch** | 메타 변경 | 설명·카테고리·태그·정렬 수정 |
+| **minor** | 플러그인 추가/제거 | `team-tools` 외 새 플러그인 등록, 기존 플러그인 deprecate |
+| **major** | 마켓플레이스 자체 깨지는 변경 | 마켓플레이스 이름 변경, 스키마 재편 |
+
+> 예: `team-tools` 를 `v0.2.0 → v0.3.0` 으로 올려도 `marketplace.json` 버전은 그대로 둡니다.
+
+### 0.x → 1.0.0 승격 기준
+
+`0.x` 는 "공개 API 불안정" 신호 (semver 컨벤션). 다음을 모두 만족하면 1.0.0 으로 promote:
+
+- 팀원 모두 한 번 이상 사용
+- 깨지는 변경이 2주 이상 없음
+
+### PR 워크플로우
+
+1. 변경 내용에 맞춰 bump 타입 결정 (patch / minor / major)
+2. 해당 `plugin.json` (또는 `marketplace.json`) 의 `version` 수정
+3. PR 설명에 한 줄 추가 — 예: `v0.2.1 (patch): jira-creator SKILL.md 문구 정리`
+
+### 캐시 강제 새로고침 (트러블슈팅)
+
+버전을 정상 bump 했는데도 반영이 안 되는 것 같으면 (드물지만):
+
+```bash
+rm -rf ~/.claude/plugins/cache/team-marketplace
+```
+
+그다음 Claude Code 에서 `/plugin marketplace update`.
+
 ## 👥 팀
 
 - **Spring**: 이준표(팀장), 장민서, 임준형
