@@ -1,6 +1,6 @@
 ---
 name: meeting-minutes
-description: 회의 대본이나 기존 Confluence 회의록을 교정된 회의록과 ttalkkak.atlassian.net용 Jira 액션 티켓으로 변환합니다. 회의록 작성/게시, 액션 아이템을 DDK/OPS Jira 티켓으로 분리, 한국어 팀원 이름을 Atlassian 계정에 매핑, 중복 Jira 작업 탐지, watcher 멘션 추가, 기존 Confluence 액션 아이템 표 처리를 요청할 때 사용하세요. 오디오 전사/STT(먼저 외부에서 전사한 뒤 대본을 전달), 단건 수동 Jira 티켓, Linear/GitHub 이슈 워크플로에는 사용하지 마세요.
+description: 회의 대본이나 Confluence 회의록을 교정된 회의록과 ttalkkak.atlassian.net용 Jira 액션 티켓(DDK/OPS)으로 변환합니다. 회의록 작성/게시, 액션 아이템의 Jira 티켓 분리, 팀원 이름→Atlassian 계정 매핑, 중복 탐지, watcher 멘션을 요청할 때 사용하세요. (적용 범위와 제외 케이스는 아래 본문 참고.)
 ---
 
 # meeting-minutes
@@ -22,6 +22,8 @@ description: 회의 대본이나 기존 Confluence 회의록을 교정된 회의
 
 오디오 녹음은 이 스킬의 범위 밖입니다. 입력이 오디오/비디오 파일이면 여기서 전사하지 마세요 — 사용자에게 외부에서 전사(아무 STT 도구나, 또는 VTT/대본 내보내기)한 뒤 그 대본을 Mode B로 다시 실행하도록 요청하세요.
 
+이럴 땐 쓰지 마세요: 오디오 전사/STT 자체(먼저 외부에서 전사 후 대본을 전달), 단건 수동 Jira 티켓 생성, Linear/GitHub 이슈 워크플로.
+
 지원 옵션: `--epic DDK-9`, `--team-lead <name>`, `--space <KEY or spaceId>`.
 
 ## 절대 규칙 (Non-Negotiables)
@@ -35,7 +37,7 @@ description: 회의 대본이나 기존 Confluence 회의록을 교정된 회의
 
 ## 단계 산출물
 
-- Stage B: `~/Desktop/meetings/<YYYY-MM-DD>/` 아래의 로컬 회의 마크다운.
+- Stage B: `~/Documents/meetings/<YYYY-MM-DD>/` 아래의 로컬 회의 마크다운. (기본 경로이며, `MEETINGS_DIR` 환경변수가 설정돼 있으면 그 값을 루트로 사용 — Windows/Linux 등 비-macOS 환경 호환용.)
 - Stage C: Confluence 페이지 URL과 생성/링크/스킵된 Jira 이슈 요약.
 
 ## 리소스

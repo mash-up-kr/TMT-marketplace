@@ -60,7 +60,7 @@
 | B-G2 | Confluence/Jira 전 | 전체 마크다운 승인; 요약만으로는 승인 불가 |
 | C-G1 | Jira 쓰기 전 | 생성/링크/스킵 계획, projectKey, assignee accountId, watcher, Epic/링크 처리 |
 
-C-G1을 통과하기 전에는 `createJiraIssue`, `editJiraIssue`, `transitionJiraIssue`, `createIssueLink`, `addCommentToJiraIssue`를 절대 호출하지 마세요.
+C-G1을 통과하기 전에는 `mcp__atlassian__createJiraIssue`, `mcp__atlassian__editJiraIssue`, `mcp__atlassian__transitionJiraIssue`, `mcp__atlassian__createIssueLink`, `mcp__atlassian__addCommentToJiraIssue`를 절대 호출하지 마세요.
 
 ## 인물 및 Atlassian 계정 (People And Atlassian Accounts)
 
@@ -150,13 +150,15 @@ attendees: [<canonical names>]
 | `assignee_account_id` | 사용자가 미할당을 명시적으로 승인하지 않는 한 필수 |
 | `parent` | 동일 프로젝트 parent만 |
 | `duedate` | ISO 날짜 또는 불명 시 생략 |
-| `customfield_10147` | 필수: 액션 아이템에는 `{"value": "L3"}` |
+| `customfield_10147` | 필수: 액션 아이템에는 `{"value": "L3"}` (Decision Level) |
 | `description` | 액션, 결정 근거, 회의 링크, 회의 장소/주제, 관련 Epic/소스 포함 |
+
+> `customfield_10147`은 `ttalkkak.atlassian.net` 전용 필드 ID입니다(이 스킬은 해당 워크스페이스 전용). 다른 워크스페이스로 확장한다면 이 ID를 이 표에서 직접 고치지 말고 별도 사이트 설정(예: `references/site-config.yaml`)으로 분리해 본문 수정 없이 재사용하세요.
 
 교차 프로젝트 규칙:
 
 - DDK Epic 하위의 DDK 이슈: 확인되면 `parent` 사용.
-- DDK Epic과 관련된 OPS 이슈: OPS에 OPS 이슈를 생성한 뒤 `Relates`로 `createIssueLink`.
+- DDK Epic과 관련된 OPS 이슈: OPS에 OPS 이슈를 생성한 뒤 `Relates`로 `mcp__atlassian__createIssueLink`.
 
 중복 규칙:
 
@@ -168,7 +170,7 @@ Watcher 규칙:
 
 - 기본값은 watcher 없음. 회의가 계속 알려야 할 비-assignee(예: 리뷰어, 페어 담당자, 알림을 요청한 리드)를 지명한 경우에만 추가.
 - C-G1에서 accountId와 함께 watcher 목록을 명시적으로 제안; watcher를 조용히 추가하지 말 것.
-- watcher 멘션은 `addCommentToJiraIssue(contentFormat="adf")`로 ADF 멘션 `attrs.id=<accountId>`를 사용해 추가. watcher가 필요 없으면 최종 요약에 그렇다고 명시해 누락이 잊히지 않고 보이게.
+- watcher 멘션은 `mcp__atlassian__addCommentToJiraIssue(contentFormat="adf")`로 ADF 멘션 `attrs.id=<accountId>`를 사용해 추가. watcher가 필요 없으면 최종 요약에 그렇다고 명시해 누락이 잊히지 않고 보이게.
 
 ## 검증 체크리스트 (Validation Checklist)
 
@@ -189,9 +191,11 @@ C-G1 전:
 
 ## 툴 제약 (Tool Constraints)
 
-이 환경에서 사용 가능한 Atlassian MCP 툴을 실제 이름으로 사용하세요:
+이 스킬은 **공식 Atlassian Remote MCP 서버**(`mcp__atlassian__*` 접두사 + camelCase 툴명)를 전제로 합니다. 아래 이름 그대로 호출하세요:
 
-- Confluence: `searchConfluenceUsingCql`, `getConfluencePage`, `createConfluencePage`, `updateConfluencePage`, `createConfluenceFooterComment`
-- Jira: `lookupJiraAccountId`, `searchJiraIssuesUsingJql`, `getJiraIssue`, `createJiraIssue`, `editJiraIssue`, `addCommentToJiraIssue`, `createIssueLink`, `transitionJiraIssue`, `getTransitionsForJiraIssue`
+- Confluence: `mcp__atlassian__searchConfluenceUsingCql`, `mcp__atlassian__getConfluencePage`, `mcp__atlassian__createConfluencePage`, `mcp__atlassian__updateConfluencePage`, `mcp__atlassian__createConfluenceFooterComment`
+- Jira: `mcp__atlassian__lookupJiraAccountId`, `mcp__atlassian__searchJiraIssuesUsingJql`, `mcp__atlassian__getJiraIssue`, `mcp__atlassian__createJiraIssue`, `mcp__atlassian__editJiraIssue`, `mcp__atlassian__addCommentToJiraIssue`, `mcp__atlassian__createIssueLink`, `mcp__atlassian__transitionJiraIssue`, `mcp__atlassian__getTransitionsForJiraIssue`
+
+> 주의: 같은 레포의 `jira-creator` 스킬은 community 계열 서버(`mcp__atlassian__jira_create_issue` 등 snake_case)를 쓰던 흔적이 있어 툴 명명 규약이 다릅니다. 두 서버는 보통 한 환경에 동시에 깔리지 않으므로, 실제 연결된 서버에 맞는 이름을 쓰세요. 현재 환경에 노출된 툴은 위의 camelCase 형태입니다(`getVisibleJiraProjects` 등으로 확인 가능).
 
 제공된 페이지나 알려진 옵션에서 space ID를 찾을 수 없으면, 임의로 만들지 말고 사용자에게 Confluence space/parent를 물으세요.

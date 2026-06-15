@@ -52,7 +52,7 @@
 
 ## 산출물
 
-- **B단계:** 로컬 회의록 `~/Desktop/meetings/<날짜>/<주제>.md`
+- **B단계:** 로컬 회의록 `~/Documents/meetings/<날짜>/<주제>.md`
 - **C단계:** Confluence 페이지 URL + 생성/링크/스킵된 Jira 이슈 요약
 
 ---
@@ -72,6 +72,8 @@
 meeting-minutes/
 ├── SKILL.md                      # 진입점(모드 감지·라우팅)
 ├── README.md                     # 이 문서
+├── agents/
+│   └── openai.yaml               # Codex/OpenAI 앱 등록 메타(표시명·트리거·MCP 의존)
 └── references/
     ├── spec.md                   # 정책 단일 진실원(게이트·스키마·라우팅·검증)
     ├── people.md                 # 팀원/계정 표(이름·accountId·별칭) ← 팀 바뀌면 여기 수정
