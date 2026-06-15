@@ -58,7 +58,7 @@
 | Name Review | 대본 로드 후 이름이 불확실할 때 | 이름 교정 및 추가 별칭 |
 | B-G1 | 액션 추출 후 | 분리 정책, 프로젝트 라우팅, 담당자/기한 불확실성 |
 | B-G2 | Confluence/Jira 전 | 전체 마크다운 승인; 요약만으로는 승인 불가 |
-| C-G1 | Jira 쓰기 전 | 생성/링크/스킵 계획, project_key, assignee displayName, watcher accountId, Epic/링크 처리 |
+| C-G1 | Jira 쓰기 전 | 생성/링크/스킵 계획, project_key, assignee accountId, watcher accountId, Epic/링크 처리 |
 
 C-G1을 통과하기 전에는 `mcp__atlassian__jira_create_issue`, `mcp__atlassian__jira_update_issue`, `mcp__atlassian__jira_transition_issue`, `mcp__atlassian__jira_create_issue_link`, `mcp__atlassian__jira_add_comment`, `mcp__atlassian__jira_add_watcher`를 절대 호출하지 마세요.
 
@@ -149,7 +149,7 @@ attendees: [<canonical names>]
 | `project_key` | 확인 후에만 `DDK` 또는 `OPS` |
 | `issue_type` | `작업` |
 | `summary` | 원래 액션 텍스트 사용; 간결하게 유지 |
-| `assignee` | **displayName** 사용(accountId/email은 silent no-op). 사용자가 미할당을 명시적으로 승인하지 않는 한 필수 |
+| `assignee` | **accountId** 사용(`people.md`). sooperset `assignee`는 accountId/displayName/email을 모두 받으나, 전환 전 동작과 동일하게 accountId를 사용. 미할당을 명시적으로 승인하지 않는 한 필수 |
 | `description` | markdown. 액션, 결정 근거, 회의 링크, 회의 장소/주제, 관련 Epic/소스 포함 |
 | `additional_fields.parent` | 동일 프로젝트 parent 키 문자열만 (예: `"DDK-9"`) |
 | `additional_fields.duedate` | ISO 날짜 또는 불명 시 생략 |
@@ -172,7 +172,7 @@ Watcher 규칙:
 
 - 기본값은 watcher 없음. 회의가 계속 알려야 할 비-assignee(예: 리뷰어, 페어 담당자, 알림을 요청한 리드)를 지명한 경우에만 추가.
 - C-G1에서 accountId와 함께 watcher 목록을 명시적으로 제안; watcher를 조용히 추가하지 말 것.
-- watcher는 `mcp__atlassian__jira_add_watcher(issue_key=, user_id=<accountId>)`로 추가(displayName 아님). watcher가 필요 없으면 최종 요약에 그렇다고 명시해 누락이 잊히지 않고 보이게.
+- watcher는 `mcp__atlassian__jira_add_watcher(issue_key=, user_identifier=<accountId>)`로 추가(Cloud는 accountId). watcher가 필요 없으면 최종 요약에 그렇다고 명시해 누락이 잊히지 않고 보이게.
 
 ## 검증 체크리스트 (Validation Checklist)
 
@@ -186,7 +186,7 @@ B-G2 전:
 
 C-G1 전:
 
-- 모든 생성 후보에 `project_key`, assignee displayName 또는 승인된 미할당 상태, 기한 처리, 중복 처리, parent/링크 전략이 있음.
+- 모든 생성 후보에 `project_key`, assignee accountId 또는 승인된 미할당 상태, 기한 처리, 중복 처리, parent/링크 전략이 있음.
 - OPS 후보에 DDK parent가 배정되지 않음.
 - `프로젝트 미정`에 Jira 쓰기가 계획되지 않음.
 - watcher는 `jira_add_watcher`로 accountId를 사용함.
