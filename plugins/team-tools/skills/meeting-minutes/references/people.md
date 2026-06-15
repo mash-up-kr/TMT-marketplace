@@ -15,10 +15,10 @@
 
 ## 계정 규칙 (Account rules)
 
-> 서버: 이 스킬은 sooperset `mcp-atlassian`을 전제로 합니다(`jira-creator`와 동일). assignee·watcher 모두 accountId를 씁니다(공식 MCP 전환 전과 동일한 식별자).
+> 서버: 이 스킬은 sooperset `mcp-atlassian`을 전제로 합니다(`jira-creator`와 동일). assignee는 displayName, watcher는 accountId를 씁니다.
 
 - 새 조회보다 표의 값을 선호(불필요한 lookup 회피).
-- **Jira assignee에는 `accountId`를 넣기** (`jira_create_issue(assignee=<accountId>)`). sooperset assignee는 accountId/displayName/email을 모두 받지만, 전환 전과 동일하게 accountId 사용.
+- **Jira assignee에는 `displayName`을 넣기** (`jira_create_issue(assignee=<displayName>)`). ⚠️ 라이브 검증: raw accountId를 주면 sooperset가 resolve 실패 → 미할당으로 생성됨. (jira-creator의 "accountId는 no-op" 경고가 옳음)
 - **Watcher에는 `accountId`를 사용** (`jira_add_watcher(user_identifier=<accountId>)`, Cloud 기준).
 - 담당자가 표에 없거나 매칭이 모호하면 Jira 생성 전에 사용자에게 묻기(임의 조회·추측 금지).
 - 둘 이상의 행과 매칭될 수 있는 별칭(공유된 이름 일부)은 자동 할당 금지 — `spec.md` 이름 정규화 → 모호한 토큰 참고.
