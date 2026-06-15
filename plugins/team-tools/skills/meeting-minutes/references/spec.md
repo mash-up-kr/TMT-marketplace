@@ -58,9 +58,9 @@
 | Name Review | 대본 로드 후 이름이 불확실할 때 | 이름 교정 및 추가 별칭 |
 | B-G1 | 액션 추출 후 | 분리 정책, 프로젝트 라우팅, 담당자/기한 불확실성 |
 | B-G2 | Confluence/Jira 전 | 전체 마크다운 승인; 요약만으로는 승인 불가 |
-| C-G1 | Jira 쓰기 전 | 생성/링크/스킵 계획, projectKey, assignee accountId, watcher, Epic/링크 처리 |
+| C-G1 | Jira 쓰기 전 | 생성/링크/스킵 계획, project_key, assignee displayName, watcher accountId, Epic/링크 처리 |
 
-C-G1을 통과하기 전에는 `mcp__atlassian__createJiraIssue`, `mcp__atlassian__editJiraIssue`, `mcp__atlassian__transitionJiraIssue`, `mcp__atlassian__createIssueLink`, `mcp__atlassian__addCommentToJiraIssue`를 절대 호출하지 마세요.
+C-G1을 통과하기 전에는 `mcp__atlassian__jira_create_issue`, `mcp__atlassian__jira_update_issue`, `mcp__atlassian__jira_transition_issue`, `mcp__atlassian__jira_create_issue_link`, `mcp__atlassian__jira_add_comment`, `mcp__atlassian__jira_add_watcher`를 절대 호출하지 마세요.
 
 ## 인물 및 Atlassian 계정 (People And Atlassian Accounts)
 
@@ -142,23 +142,25 @@ attendees: [<canonical names>]
 
 모든 Jira 후보에 대해 쓰기 전에 계획 행을 만드세요:
 
+`mcp__atlassian__jira_create_issue(project_key=, summary=, issue_type=, assignee=, description=, additional_fields={...})` 형태로 호출합니다(sooperset):
+
 | 필드 | 규칙 |
 |---|---|
-| `projectKey` | 확인 후에만 `DDK` 또는 `OPS` |
-| `issueTypeName` | `작업` |
+| `project_key` | 확인 후에만 `DDK` 또는 `OPS` |
+| `issue_type` | `작업` |
 | `summary` | 원래 액션 텍스트 사용; 간결하게 유지 |
-| `assignee_account_id` | 사용자가 미할당을 명시적으로 승인하지 않는 한 필수 |
-| `parent` | 동일 프로젝트 parent만 |
-| `duedate` | ISO 날짜 또는 불명 시 생략 |
-| `customfield_10147` | 필수: 액션 아이템에는 `{"value": "L3"}` (Decision Level) |
-| `description` | 액션, 결정 근거, 회의 링크, 회의 장소/주제, 관련 Epic/소스 포함 |
+| `assignee` | **displayName** 사용(accountId/email은 silent no-op). 사용자가 미할당을 명시적으로 승인하지 않는 한 필수 |
+| `description` | markdown. 액션, 결정 근거, 회의 링크, 회의 장소/주제, 관련 Epic/소스 포함 |
+| `additional_fields.parent` | 동일 프로젝트 parent 키 문자열만 (예: `"DDK-9"`) |
+| `additional_fields.duedate` | ISO 날짜 또는 불명 시 생략 |
+| `additional_fields.customfield_10147` | 필수: 액션 아이템에는 `{"value": "L3"}` (Decision Level) |
 
 > `customfield_10147`은 `ttalkkak.atlassian.net` 전용 필드 ID입니다(이 스킬은 해당 워크스페이스 전용). 다른 워크스페이스로 확장한다면 이 ID를 이 표에서 직접 고치지 말고 별도 사이트 설정(예: `references/site-config.yaml`)으로 분리해 본문 수정 없이 재사용하세요.
 
 교차 프로젝트 규칙:
 
-- DDK Epic 하위의 DDK 이슈: 확인되면 `parent` 사용.
-- DDK Epic과 관련된 OPS 이슈: OPS에 OPS 이슈를 생성한 뒤 `Relates`로 `mcp__atlassian__createIssueLink`.
+- DDK Epic 하위의 DDK 이슈: 확인되면 `additional_fields.parent` 사용.
+- DDK Epic과 관련된 OPS 이슈: OPS에 OPS 이슈를 생성한 뒤 `mcp__atlassian__jira_create_issue_link(link_type="관련된 이슈", ...)`로 연결.
 
 중복 규칙:
 
@@ -170,7 +172,7 @@ Watcher 규칙:
 
 - 기본값은 watcher 없음. 회의가 계속 알려야 할 비-assignee(예: 리뷰어, 페어 담당자, 알림을 요청한 리드)를 지명한 경우에만 추가.
 - C-G1에서 accountId와 함께 watcher 목록을 명시적으로 제안; watcher를 조용히 추가하지 말 것.
-- watcher 멘션은 `mcp__atlassian__addCommentToJiraIssue(contentFormat="adf")`로 ADF 멘션 `attrs.id=<accountId>`를 사용해 추가. watcher가 필요 없으면 최종 요약에 그렇다고 명시해 누락이 잊히지 않고 보이게.
+- watcher는 `mcp__atlassian__jira_add_watcher(issue_key=, user_id=<accountId>)`로 추가(displayName 아님). watcher가 필요 없으면 최종 요약에 그렇다고 명시해 누락이 잊히지 않고 보이게.
 
 ## 검증 체크리스트 (Validation Checklist)
 
@@ -184,18 +186,20 @@ B-G2 전:
 
 C-G1 전:
 
-- 모든 생성 후보에 `projectKey`, assignee accountId 또는 승인된 미할당 상태, 기한 처리, 중복 처리, parent/링크 전략이 있음.
+- 모든 생성 후보에 `project_key`, assignee displayName 또는 승인된 미할당 상태, 기한 처리, 중복 처리, parent/링크 전략이 있음.
 - OPS 후보에 DDK parent가 배정되지 않음.
 - `프로젝트 미정`에 Jira 쓰기가 계획되지 않음.
-- watcher 멘션이 accountId를 사용함.
+- watcher는 `jira_add_watcher`로 accountId를 사용함.
 
 ## 툴 제약 (Tool Constraints)
 
-이 스킬은 **공식 Atlassian Remote MCP 서버**(`mcp__atlassian__*` 접두사 + camelCase 툴명)를 전제로 합니다. 아래 이름 그대로 호출하세요:
+이 스킬은 같은 레포의 `jira-creator`와 동일하게 **sooperset `mcp-atlassian` 서버**(`mcp__atlassian__*` 접두사 + snake_case 툴명)를 전제로 합니다. 아래 이름 그대로 호출하세요:
 
-- Confluence: `mcp__atlassian__searchConfluenceUsingCql`, `mcp__atlassian__getConfluencePage`, `mcp__atlassian__createConfluencePage`, `mcp__atlassian__updateConfluencePage`, `mcp__atlassian__createConfluenceFooterComment`
-- Jira: `mcp__atlassian__lookupJiraAccountId`, `mcp__atlassian__searchJiraIssuesUsingJql`, `mcp__atlassian__getJiraIssue`, `mcp__atlassian__createJiraIssue`, `mcp__atlassian__editJiraIssue`, `mcp__atlassian__addCommentToJiraIssue`, `mcp__atlassian__createIssueLink`, `mcp__atlassian__transitionJiraIssue`, `mcp__atlassian__getTransitionsForJiraIssue`
+- Confluence: `mcp__atlassian__confluence_search`, `mcp__atlassian__confluence_get_page`, `mcp__atlassian__confluence_create_page`, `mcp__atlassian__confluence_update_page`, `mcp__atlassian__confluence_add_comment`
+- Jira: `mcp__atlassian__jira_search`, `mcp__atlassian__jira_get_issue`, `mcp__atlassian__jira_create_issue`, `mcp__atlassian__jira_update_issue`, `mcp__atlassian__jira_add_comment`, `mcp__atlassian__jira_add_watcher`, `mcp__atlassian__jira_create_issue_link`, `mcp__atlassian__jira_transition_issue`, `mcp__atlassian__jira_get_transitions`
 
-> 주의: 같은 레포의 `jira-creator` 스킬은 community 계열 서버(`mcp__atlassian__jira_create_issue` 등 snake_case)를 쓰던 흔적이 있어 툴 명명 규약이 다릅니다. 두 서버는 보통 한 환경에 동시에 깔리지 않으므로, 실제 연결된 서버에 맞는 이름을 쓰세요. 현재 환경에 노출된 툴은 위의 camelCase 형태입니다(`getVisibleJiraProjects` 등으로 확인 가능).
+> 인증/의존성: sooperset 서버는 **Atlassian API 토큰**으로 동작합니다(env: `JIRA_URL`/`CONFLUENCE_URL`=`https://ttalkkak.atlassian.net`, `ATLASSIAN_EMAIL`, `ATLASSIAN_API_TOKEN`). 토큰은 발급자 권한으로 동작하므로 별도 신규 Jira 권한은 필요 없습니다. `jira-creator`와 같은 서버·토큰을 공유합니다.
+>
+> 주의: 공식 Atlassian Remote MCP(OAuth)는 **camelCase**(`createJiraIssue` 등)라 이름이 다릅니다. 두 서버는 보통 한 환경에 동시에 안 깔리니, 실제 연결된 서버가 sooperset인지 먼저 확인하세요(`mcp__atlassian__atlassianUserInfo`가 있으면 공식 서버, 없으면 sooperset).
 
 제공된 페이지나 알려진 옵션에서 space ID를 찾을 수 없으면, 임의로 만들지 말고 사용자에게 Confluence space/parent를 물으세요.

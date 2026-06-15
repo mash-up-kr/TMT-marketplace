@@ -7,7 +7,11 @@ dependencies:
   tools:
     - type: "mcp"
       value: "atlassian"
-      description: "ttalkkak Confluence 페이지와 Jira 이슈 읽기/쓰기"
+      description: >-
+        sooperset mcp-atlassian 서버(jira-creator와 동일, snake_case 툴명)로
+        ttalkkak Confluence 페이지와 Jira 이슈 읽기/쓰기.
+        env 필요: JIRA_URL/CONFLUENCE_URL=https://ttalkkak.atlassian.net,
+        ATLASSIAN_EMAIL, ATLASSIAN_API_TOKEN.
 
 policy:
   allow_implicit_invocation: true

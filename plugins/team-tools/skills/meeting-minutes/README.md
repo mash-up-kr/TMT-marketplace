@@ -95,7 +95,9 @@ meeting-minutes/
 
 ## 요구사항
 
-- **B/C단계**: Atlassian(Confluence/Jira) MCP 연결, `ttalkkak.atlassian.net` 접근 권한.
+- **B/C단계**: **sooperset `mcp-atlassian` MCP 서버** 연결(`jira-creator`와 동일, snake_case 툴명). `ttalkkak.atlassian.net` 접근 권한.
+  - 인증: Atlassian **API 토큰** (env `ATLASSIAN_EMAIL`, `ATLASSIAN_API_TOKEN`, `JIRA_URL`/`CONFLUENCE_URL=https://ttalkkak.atlassian.net`). 토큰은 발급자 권한으로 동작 → 별도 신규 Jira 권한 불필요. `jira-creator`와 서버·토큰 공유.
+  - 참고: 공식 Atlassian Remote MCP(OAuth, camelCase)와는 툴명이 다릅니다. 한 환경에 둘 중 하나만 붙는 게 일반적이라, 연결된 서버가 sooperset인지 먼저 확인하세요.
 - **오디오 입력**: 별도 외부 STT로 전사 후 대본을 모드 B로 사용 (이 스킬은 전사 도구를 포함하지 않음).
 
 ---

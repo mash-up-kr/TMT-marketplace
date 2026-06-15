@@ -15,9 +15,10 @@
 
 ## 계정 규칙 (Account rules)
 
-- 새 조회보다 표의 accountId를 선호.
-- Jira assignee는 display-name 필드가 아니라 `assignee_account_id`에 넣기.
-- ADF 멘션은 `attrs.id=<accountId>`와 `attrs.text=@<displayName>`를 사용.
-- Confluence HTML 멘션은 `<span data-type="mention" data-user-id="<accountId>">@<displayName></span>` 형태로 사용.
-- 담당자가 표에 없거나 조회가 여러 후보를 반환하면 Jira 생성 전에 사용자에게 묻기.
+> 서버: 이 스킬은 sooperset `mcp-atlassian`을 전제로 합니다(`jira-creator`와 동일). assignee는 displayName, watcher는 accountId를 씁니다.
+
+- 새 조회보다 표의 값을 선호(불필요한 lookup 회피).
+- **Jira assignee에는 `displayName`을 넣기** (sooperset `jira_create_issue(assignee=...)`). accountId/email은 silent no-op이라 적용 안 됨.
+- **Watcher에는 `accountId`를 사용** (`jira_add_watcher(user_id=<accountId>)`). displayName 아님.
+- 담당자가 표에 없거나 매칭이 모호하면 Jira 생성 전에 사용자에게 묻기(임의 조회·추측 금지).
 - 둘 이상의 행과 매칭될 수 있는 별칭(공유된 이름 일부)은 자동 할당 금지 — `spec.md` 이름 정규화 → 모호한 토큰 참고.
