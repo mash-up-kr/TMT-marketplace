@@ -1,0 +1,17 @@
+interface:
+  display_name: "회의록 → Jira"
+  short_description: "회의록을 Confluence와 Jira 액션 티켓으로 변환"
+  default_prompt: "$meeting-minutes 를 사용해 이 회의 대본이나 Confluence 페이지를 승인된 회의록과 Jira 액션 티켓으로 만들어줘."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "atlassian"
+      description: >-
+        sooperset mcp-atlassian 서버(jira-creator와 동일, snake_case 툴명)로
+        ttalkkak Confluence 페이지와 Jira 이슈 읽기/쓰기.
+        env 필요: JIRA_URL/CONFLUENCE_URL=https://ttalkkak.atlassian.net,
+        ATLASSIAN_EMAIL, ATLASSIAN_API_TOKEN.
+
+policy:
+  allow_implicit_invocation: true
