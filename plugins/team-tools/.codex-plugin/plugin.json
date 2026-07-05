@@ -1,6 +1,6 @@
 {
   "name": "team-tools",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "딸깍팀(Mash-Up 16기) 공용 스킬 모음 — Jira 이슈 생성(OPS·DDK), 회의록→Jira 등",
   "author": {
     "name": "이준표",
