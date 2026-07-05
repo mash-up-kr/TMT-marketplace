@@ -1,4 +1,4 @@
-# ttalkkak-marketplace
+# TMT-marketplace
 
 > 딸깍팀(Mash-Up 16기)의 **공용 스킬·에이전트·자동화 스크립트** 마켓플레이스
 
@@ -14,7 +14,7 @@
 
 ```bash
 # 1. 마켓플레이스 등록 (manifest의 name = team-marketplace)
-claude plugin marketplace add mash-up-kr/ttalkkak-marketplace
+claude plugin marketplace add mash-up-kr/TMT-marketplace
 
 # 2. team-tools 플러그인 설치
 claude plugin install team-tools@team-marketplace
@@ -25,7 +25,7 @@ claude plugin install team-tools@team-marketplace
 ## 📂 구조
 
 ```
-ttalkkak-marketplace/             # GitHub repo (URL은 유지)
+TMT-marketplace/             # GitHub repo (구 ttalkkak-marketplace)
 ├── .claude-plugin/
 │   └── marketplace.json          # name: team-marketplace
 ├── plugins/
