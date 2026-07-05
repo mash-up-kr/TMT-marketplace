@@ -36,10 +36,6 @@ codex plugin add team-tools@team-marketplace
 
 설치하면 `skills/` 아래 스킬이 **번들 통째로** 딸려옵니다. 설치 후 **Codex 재시작**하면 인식합니다. 업데이트는 `codex plugin marketplace upgrade`.
 
-> ⚠️ **MCP 규약 주의** — `jira-creator`·`meeting-minutes`는 Atlassian MCP에 의존하며, **sooperset [`mcp-atlassian`](https://github.com/sooperset/mcp-atlassian) 서버**(`mcp__atlassian__jira_create_issue` 등 **snake_case** 툴명)를 전제로 합니다. Codex `config.toml`에 **동일한 sooperset 서버**를 등록해야 런타임에 정상 동작합니다.
->
-> 공식 Atlassian Remote MCP(OAuth)는 툴 이름 규약이 달라(**camelCase**, 예: `createJiraIssue`) 스킬이 호출하는 이름을 찾지 못해 실패합니다. 반드시 sooperset 서버를 사용하세요.
-
 ## 📂 구조
 
 ```
