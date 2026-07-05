@@ -22,26 +22,43 @@ claude plugin install team-tools@team-marketplace
 
 설치 후 Claude Code에서 `/team-tools:jira-creator` 또는 자연어로 호출.
 
+## 🤖 Codex에서 설치
+
+Codex도 동일한 플러그인·마켓플레이스 개념을 지원합니다(`.codex-plugin/plugin.json` + `.agents/plugins/marketplace.json`). 그래서 Claude와 **대칭으로** 설치합니다:
+
+```bash
+# 1. 마켓플레이스 등록 (owner/repo 슬러그 — 원격에서 바로)
+codex plugin marketplace add mash-up-kr/TMT-marketplace
+
+# 2. team-tools 플러그인 설치
+codex plugin add team-tools@team-marketplace
+```
+
+설치하면 `skills/` 아래 스킬이 **번들 통째로** 딸려옵니다. 설치 후 **Codex 재시작**하면 인식합니다. 업데이트는 `codex plugin marketplace upgrade`.
+
 ## 📂 구조
 
 ```
-TMT-marketplace/             # GitHub repo (구 ttalkkak-marketplace)
+TMT-marketplace/                   # GitHub repo (마켓플레이스 루트, 구 ttalkkak-marketplace)
 ├── .claude-plugin/
-│   └── marketplace.json          # name: team-marketplace
-├── plugins/
-│   └── team-tools/               # 메인 플러그인 (팀 공용 스킬 묶음)
-│       ├── .claude-plugin/
-│       │   └── plugin.json       # name: team-tools
-│       └── skills/
-│           └── jira-creator/     # Jira 이슈 생성 (OPS·DDK)
-│               ├── SKILL.md
-│               ├── README.md
-│               └── scripts/
-│                   ├── jira_adf.py
-│                   └── README.md
-├── mcps/                         # MCP 서버 설정 템플릿 (참고용 문서)
-│   └── configs/atlassian/
-└── docs/                         # 추가 가이드 (TBD)
+│   └── marketplace.json          # Claude 마켓플레이스 (name: team-marketplace)
+├── .agents/plugins/
+│   └── marketplace.json          # Codex 마켓플레이스 (대칭)
+└── plugins/
+    └── team-tools/               # 메인 플러그인 (팀 공용 스킬 묶음)
+        ├── .claude-plugin/
+        │   └── plugin.json       # Claude 플러그인 매니페스트 (name: team-tools)
+        ├── .codex-plugin/
+        │   └── plugin.json       # Codex 플러그인 매니페스트 (대칭)
+        └── skills/               # 스킬 본문 (Claude·Codex 공유, 단일 소스)
+            ├── jira-creator/     # Jira 이슈 생성 (OPS·DDK)
+            │   ├── SKILL.md
+            │   ├── README.md
+            │   └── scripts/jira_adf.py
+            └── meeting-minutes/  # 회의록 → Confluence·Jira 파이프라인
+                ├── SKILL.md
+                ├── README.md
+                └── references/
 ```
 
 > 새 스킬 추가 시 `plugins/team-tools/skills/<name>/SKILL.md` 경로에. 자세히는 [CONTRIBUTING.md](./CONTRIBUTING.md).
