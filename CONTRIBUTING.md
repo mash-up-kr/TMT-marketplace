@@ -49,6 +49,11 @@
 - 셸 스크립트: `shellcheck` 통과
 - 모든 코드: **주석은 WHY만, WHAT은 식별자로 표현**
 
+## 새 스킬 추가 체크리스트
+
+1. `plugins/<plugin>/skills/<name>/SKILL.md` 작성 (name·description frontmatter 필수)
+2. 별도 등록 불필요 — 플러그인이 `skills/`를 번들로 인식하므로 Claude(`plugin.json`)·Codex(`.codex-plugin/plugin.json`) 양쪽에 자동 포함됩니다.
+
 ## 문서
 
 새 스킬/스크립트는 사용 예시를 README에 한두 줄이라도 추가.

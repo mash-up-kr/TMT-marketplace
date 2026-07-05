@@ -22,6 +22,22 @@ claude plugin install team-tools@team-marketplace
 
 설치 후 Claude Code에서 `/team-tools:jira-creator` 또는 자연어로 호출.
 
+## 🤖 Codex에서 설치
+
+Codex도 동일한 플러그인·마켓플레이스 개념을 지원합니다(`.codex-plugin/plugin.json` + `.agents/plugins/marketplace.json`). 그래서 Claude와 **대칭으로** 설치합니다:
+
+```bash
+# 1. 마켓플레이스 등록 (owner/repo 슬러그 — 원격에서 바로)
+codex plugin marketplace add mash-up-kr/ttalkkak-marketplace
+
+# 2. team-tools 플러그인 설치
+codex plugin add team-tools@team-marketplace
+```
+
+설치하면 `skills/` 아래 스킬이 **번들 통째로** 딸려옵니다. 설치 후 **Codex 재시작**하면 인식합니다. 업데이트는 `codex plugin marketplace upgrade`.
+
+> 일부 스킬은 MCP(예: atlassian)에 의존하므로, Codex `config.toml`에 동일 MCP가 설정돼 있어야 런타임에 정상 동작합니다.
+
 ## 📂 구조
 
 ```
