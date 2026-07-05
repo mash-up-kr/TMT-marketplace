@@ -39,7 +39,7 @@ codex plugin add team-tools@team-marketplace
 ## 📂 구조
 
 ```
-TMT-marketplace/                   # GitHub repo (= 마켓플레이스 루트)
+TMT-marketplace/                   # GitHub repo (마켓플레이스 루트, 구 ttalkkak-marketplace)
 ├── .claude-plugin/
 │   └── marketplace.json          # Claude 마켓플레이스 (name: team-marketplace)
 ├── .agents/plugins/
