@@ -7,8 +7,8 @@
     "email": "wnsvy607@naver.com",
     "url": "https://github.com/mash-up-kr"
   },
-  "homepage": "https://github.com/mash-up-kr/ttalkkak-marketplace",
-  "repository": "https://github.com/mash-up-kr/ttalkkak-marketplace",
+  "homepage": "https://github.com/mash-up-kr/TMT-marketplace",
+  "repository": "https://github.com/mash-up-kr/TMT-marketplace",
   "license": "MIT",
   "keywords": ["jira", "confluence", "meeting-minutes", "ttalkkak", "mashup"],
   "skills": "./skills/",

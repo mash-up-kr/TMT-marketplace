@@ -1,4 +1,4 @@
-# Contributing to ttalkkak-marketplace
+# Contributing to TMT-marketplace
 
 ## 워크플로우
 
