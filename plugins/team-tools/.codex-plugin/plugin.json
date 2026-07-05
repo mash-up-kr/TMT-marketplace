@@ -1,0 +1,27 @@
+{
+  "name": "team-tools",
+  "version": "0.2.0",
+  "description": "딸깍팀(Mash-Up 16기) 공용 스킬 모음 — Jira 이슈 생성(OPS·DDK), 회의록→Jira 등",
+  "author": {
+    "name": "이준표",
+    "email": "wnsvy607@naver.com",
+    "url": "https://github.com/mash-up-kr"
+  },
+  "homepage": "https://github.com/mash-up-kr/ttalkkak-marketplace",
+  "repository": "https://github.com/mash-up-kr/ttalkkak-marketplace",
+  "license": "MIT",
+  "keywords": ["jira", "confluence", "meeting-minutes", "ttalkkak", "mashup"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "딸깍 Team Tools",
+    "shortDescription": "딸깍팀 공용 스킬 — Jira·회의록 자동화",
+    "longDescription": "딸깍팀(Mash-Up 16기)의 공용 스킬 모음입니다. OPS·DDK Jira 이슈 생성, 회의 대본/Confluence 회의록을 교정된 회의록과 Jira 액션 티켓으로 변환하는 워크플로우를 제공합니다.",
+    "developerName": "Mash-Up 16th ttalkkak team",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "딸깍 Jira 이슈 만들어줘",
+      "이 회의 대본을 회의록과 Jira 액션 티켓으로 만들어줘"
+    ]
+  }
+}
