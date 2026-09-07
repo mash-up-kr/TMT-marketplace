@@ -4,6 +4,15 @@
 
 [TMT-oncall](https://github.com/mash-up-kr/TMT-oncall) 봇이 호출하는 스킬입니다. 봇은 스킬 **이름만** 알고 문구는 갖지 않기로 해서, 톤과 규칙이 여기 있습니다.
 
+## 에러 스킬
+
+| 스킬 | 언제 | 모델 |
+|---|---|---|
+| `incident-triage` | Sentry가 새 에러를 올림 | Haiku. **소스를 읽지 않고** 조치 필요 여부만 1차 판정 |
+| `incident-analyze` | 판정을 통과한 건 | Sonnet. 소스를 읽고 원인 + 수정 계획 |
+
+`incident-triage`가 `false`로 판정하면 채널에 아예 올라가지 않습니다. 형식이 깨지면 봇은 `true`로 봅니다 — 놓치는 쪽이 시끄러운 쪽보다 나쁘기 때문입니다.
+
 ## 답변 스킬
 
 | 스킬 | 언제 | 톤 |
@@ -13,6 +22,30 @@
 | `answer-spring` | 역할이 **스프링** | 코드 위치·설정·스택. 근거를 `파일:줄`로 |
 
 역할이 없거나 판정되지 않으면 봇이 `answer-design`으로 답합니다.
+
+## 에러 스킬
+
+| 스킬 | 언제 | 모델 |
+|---|---|---|
+| `incident-triage` | Sentry가 새 에러를 올림 | Haiku. **소스를 읽지 않고** 조치 필요 여부만 1차 판정 |
+| `incident-analyze` | 판정을 통과한 건 | Sonnet. 소스를 읽고 원인 + 수정 계획 |
+
+`incident-triage`가 `false`로 판정하면 채널에 아예 올라가지 않습니다. 형식이 깨지면 봇은 `true`로 봅니다 — 놓치는 쪽이 시끄러운 쪽보다 나쁘기 때문입니다.
+
+## 에러 스킬의 출력 계약
+
+`incident-triage`:
+
+```json
+{ "action_needed": true, "reason": "...", "severity": "high|medium|low" }
+```
+
+`incident-analyze` — `Analysis` 레코드가 그대로 계약입니다. `fix_plan`은 'PR 만들기'를 누르면 `tmt-fix-pr`의 입력이 되고, `code_fix_possible`이 `false`면 버튼이 붙지 않습니다.
+
+```json
+{ "cause": "...", "fix_plan": ["..."], "impact": "...",
+  "related_deploy": "...", "stack_excerpt": "...", "code_fix_possible": true }
+```
 
 ## 답변 스킬의 출력 계약
 
@@ -42,6 +75,9 @@
 /be-oncall-kit:answer-spring 리뷰 목록 조회가 데이터 늘고 나서 느려졌는데 왜죠
 ```
 
-## 아직 없는 것
+## 경로
 
-[SPEC](https://github.com/mash-up-kr/TMT-oncall/blob/main/docs/SPEC.md)이 정한 6종 중 에러 경로 2종(`incident-triage` · `incident-analyze`)이 아직 없습니다. 그 둘의 입출력은 이들을 부를 `IncidentTriage`(TMT-330)가 확정하므로, 코드가 나온 뒤에 그 계약대로 씁니다.
+```
+에러:  Sentry → incident-triage → incident-analyze → 리포트 → [PR 만들기] → tmt-fix-pr
+질문:  Discord → 역할 판정 → answer-design | answer-web | answer-spring
+```

@@ -73,6 +73,8 @@ TMT-marketplace/                   # GitHub repo (마켓플레이스 루트, 구
         ├── .codex-plugin/
         │   └── plugin.json       # Codex 플러그인 매니페스트 (대칭)
         └── skills/               # 봇이 부르는 스킬 (Claude·Codex 공유)
+            ├── incident-triage/  # 에러 1차 판정 (소스 안 읽음)
+            ├── incident-analyze/ # 원인 + 수정 계획
             ├── answer-design/    # '디자인' 역할 톤 답변
             ├── answer-web/       # '웹' 역할 톤 답변
             ├── answer-spring/    # '스프링' 역할 톤 답변
