@@ -72,10 +72,11 @@ TMT-marketplace/                   # GitHub repo (마켓플레이스 루트, 구
         │   └── plugin.json       # Claude 플러그인 매니페스트 (name: be-oncall-kit)
         ├── .codex-plugin/
         │   └── plugin.json       # Codex 플러그인 매니페스트 (대칭)
-        └── skills/               # 역할별 톤 답변 (Claude·Codex 공유)
-            ├── answer-design/    # '디자인' 역할 톤
-            ├── answer-web/       # '웹' 역할 톤
-            └── answer-spring/    # '스프링' 역할 톤
+        └── skills/               # 봇이 부르는 스킬 (Claude·Codex 공유)
+            ├── answer-design/    # '디자인' 역할 톤 답변
+            ├── answer-web/       # '웹' 역할 톤 답변
+            ├── answer-spring/    # '스프링' 역할 톤 답변
+            └── tmt-fix-pr/       # 승인된 계획대로 작업 트리 수정
 ```
 
 > 새 스킬 추가 시 `plugins/<플러그인>/skills/<name>/SKILL.md` 경로에. 팀 공용이면 `team-tools`, 온콜 봇이 부르는 것이면 `be-oncall-kit`. 자세히는 [CONTRIBUTING.md](./CONTRIBUTING.md).

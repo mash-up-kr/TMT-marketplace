@@ -2,9 +2,9 @@
 
 딸깍팀(Mash-Up 16기) 온콜 봇 스킬 모음.
 
-[TMT-oncall](https://github.com/mash-up-kr/TMT-oncall) 봇이 Discord에서 받은 질문에 답할 때 호출하는 스킬입니다. 봇은 스킬 **이름만** 알고 문구는 갖지 않기로 해서, 역할별 톤이 여기 있습니다.
+[TMT-oncall](https://github.com/mash-up-kr/TMT-oncall) 봇이 호출하는 스킬입니다. 봇은 스킬 **이름만** 알고 문구는 갖지 않기로 해서, 톤과 규칙이 여기 있습니다.
 
-## 스킬
+## 답변 스킬
 
 | 스킬 | 언제 | 톤 |
 |---|---|---|
@@ -14,7 +14,7 @@
 
 역할이 없거나 판정되지 않으면 봇이 `answer-design`으로 답합니다.
 
-## 출력 계약
+## 답변 스킬의 출력 계약
 
 세 스킬 모두 JSON 객체 하나만 출력합니다.
 
@@ -26,6 +26,14 @@
 
 형식이 깨지면 봇은 답변 본문만 살리고 수정 버튼을 붙이지 않습니다 — 형식 하나 때문에 질문한 사람이 아무 답도 못 받는 것보다는 낫기 때문입니다.
 
+## 수정 스킬
+
+| 스킬 | 언제 |
+|---|---|
+| `tmt-fix-pr` | 사람이 'PR 만들기' 버튼을 누른 뒤. 승인된 수정 계획대로 TMT-BE 작업 트리를 고칩니다 |
+
+브랜치·커밋·푸시·PR은 봇(`PullRequestAgent`)이 직접 하므로 이 스킬은 **파일만** 고칩니다. 변경 사항이 하나도 없으면 봇이 실패로 처리합니다.
+
 ## 사람이 직접 쓰기
 
 봇 없이 로컬에서 단독으로 써도 됩니다. TMT-BE 워크스페이스에서:
@@ -36,4 +44,4 @@
 
 ## 아직 없는 것
 
-[SPEC](https://github.com/mash-up-kr/TMT-oncall/blob/main/docs/SPEC.md)이 정한 6종 중 답변 3종만 있습니다. `incident-triage` · `incident-analyze`는 붙을 `IncidentTriage`(TMT-330)가, `tmt-fix-pr`은 계약을 맞출 `PullRequestAgent`가 아직 정리되지 않아 후속으로 둡니다.
+[SPEC](https://github.com/mash-up-kr/TMT-oncall/blob/main/docs/SPEC.md)이 정한 6종 중 에러 경로 2종(`incident-triage` · `incident-analyze`)이 아직 없습니다. 그 둘의 입출력은 이들을 부를 `IncidentTriage`(TMT-330)가 확정하므로, 코드가 나온 뒤에 그 계약대로 씁니다.
