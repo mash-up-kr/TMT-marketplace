@@ -59,7 +59,7 @@ TMT-marketplace/                   # GitHub repo (마켓플레이스 루트, 구
     │   ├── .codex-plugin/
     │   │   └── plugin.json       # Codex 플러그인 매니페스트 (대칭)
     │   └── skills/               # 스킬 본문 (Claude·Codex 공유, 단일 소스)
-    │       ├── jira-creator/     # Jira 이슈 생성 (OPS·DDK)
+    │       ├── jira-creator/     # Jira 이슈 생성 (OPS·TMT)
     │       │   ├── SKILL.md
     │       │   ├── README.md
     │       │   └── scripts/jira_adf.py

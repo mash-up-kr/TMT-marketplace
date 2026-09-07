@@ -10,7 +10,7 @@
 - 인물 및 Atlassian 계정
 - 이름 정규화
 - 회의 마크다운 스키마
-- DDK / OPS 라우팅
+- TMT / OPS 라우팅
 - Jira 생성 계약
 - 검증 체크리스트
 - 툴 제약
@@ -113,18 +113,18 @@ attendees: [<canonical names>]
 
 | # | 작업 | 프로젝트 후보 | 담당자 | 기한 | 상태 |
 |---|---|---|---|---|---|
-| 1 | ... | DDK/OPS/프로젝트 미정 | 이름 또는 (미정) | YYYY-MM-DD 또는 미정 | TODO/DONE/진행중 |
+| 1 | ... | TMT/OPS/프로젝트 미정 | 이름 또는 (미정) | YYYY-MM-DD 또는 미정 | TODO/DONE/진행중 |
 ```
 
 소스 인용/타임스탬프는 B-G1 검토 표에 유지하되, 기존 Confluence 컨벤션이 요구하지 않는 한 최종 회의 마크다운에서는 소스 전용 컬럼을 제거하세요.
 
-## DDK / OPS 라우팅 (DDK / OPS Routing)
+## TMT / OPS 라우팅 (TMT / OPS Routing)
 
 | 후보 | 용도 |
 |---|---|
-| `DDK` | 제품 기능, UX/UI, 구현, QA/검증, 디자인/프로토타입, 데이터/기술 결정, 제품 산출물을 바꾸는 작업 |
+| `TMT` | 제품 기능, UX/UI, 구현, QA/검증, 디자인/프로토타입, 데이터/기술 결정, 제품 산출물을 바꾸는 작업 |
 | `OPS` | 운영, 일정 관리, 회의 준비, 문서 정리, 커뮤니케이션, 조율, 프로세스 관리, 운영으로 추적되는 작업 |
-| `프로젝트 미정` | 모호한 작업; 사용자가 DDK 또는 OPS를 선택하기 전에는 Jira 생성 금지 |
+| `프로젝트 미정` | 모호한 작업; 사용자가 TMT 또는 OPS를 선택하기 전에는 Jira 생성 금지 |
 
 라우팅은 C-G1 전까지는 최종 결정이 아니라 후보입니다.
 
@@ -146,12 +146,12 @@ attendees: [<canonical names>]
 
 | 필드 | 규칙 |
 |---|---|
-| `project_key` | 확인 후에만 `DDK` 또는 `OPS` |
+| `project_key` | 확인 후에만 `TMT` 또는 `OPS` |
 | `issue_type` | `작업` |
 | `summary` | 원래 액션 텍스트 사용; 간결하게 유지 |
 | `assignee` | **displayName** 사용(`people.md`). ⚠️ 라이브 검증: raw accountId를 주면 sooperset가 resolve 실패해 **미할당**으로 생성됨 — 반드시 displayName. 미할당을 명시적으로 승인하지 않는 한 필수 |
 | `description` | markdown. 액션, 결정 근거, 회의 링크, 회의 장소/주제, 관련 Epic/소스 포함 |
-| `additional_fields.parent` | 동일 프로젝트 parent 키 문자열만 (예: `"DDK-9"`) |
+| `additional_fields.parent` | 동일 프로젝트 parent 키 문자열만 (예: `"TMT-9"`) |
 | `additional_fields.duedate` | ISO 날짜 또는 불명 시 생략 |
 | `additional_fields.customfield_10147` | 필수: 액션 아이템에는 `{"value": "L3"}` (Decision Level) |
 
@@ -159,12 +159,12 @@ attendees: [<canonical names>]
 
 교차 프로젝트 규칙:
 
-- DDK Epic 하위의 DDK 이슈: 확인되면 `additional_fields.parent` 사용.
-- DDK Epic과 관련된 OPS 이슈: OPS에 OPS 이슈를 생성한 뒤 `mcp__atlassian__jira_create_issue_link(link_type="관련된 이슈", ...)`로 연결.
+- TMT Epic 하위의 TMT 이슈: 확인되면 `additional_fields.parent` 사용.
+- TMT Epic과 관련된 OPS 이슈: OPS에 OPS 이슈를 생성한 뒤 `mcp__atlassian__jira_create_issue_link(link_type="관련된 이슈", ...)`로 연결.
 
 중복 규칙:
 
-- 생성 전에 assignee로 최근 DDK/OPS 이슈를 검색.
+- 생성 전에 assignee로 최근 TMT/OPS 이슈를 검색.
 - "본인 담당분 별도 과제", "이미 진행 중", "DONE", 유사한 노트는 중복 위험으로 취급.
 - C-G1에서 중복을 제시하고 중복 생성보다 스킵/링크를 기본값으로.
 
@@ -187,7 +187,7 @@ B-G2 전:
 C-G1 전:
 
 - 모든 생성 후보에 `project_key`, assignee displayName 또는 승인된 미할당 상태, 기한 처리, 중복 처리, parent/링크 전략이 있음.
-- OPS 후보에 DDK parent가 배정되지 않음.
+- OPS 후보에 TMT parent가 배정되지 않음.
 - `프로젝트 미정`에 Jira 쓰기가 계획되지 않음.
 - watcher는 `jira_add_watcher`로 accountId를 사용함.
 

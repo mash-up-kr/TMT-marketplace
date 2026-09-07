@@ -20,7 +20,7 @@ export ATLASSIAN_EMAIL='wnsvy607@naver.com'
 export ATLASSIAN_API_TOKEN='ATATT...'   # claude.local.md 참고
 
 # stdin 으로 markdown
-cat <<'EOF' | python3 jira_adf.py DDK-33
+cat <<'EOF' | python3 jira_adf.py TMT-33
 ## 🎯 목적
 한 줄 설명
 
@@ -31,10 +31,10 @@ cat <<'EOF' | python3 jira_adf.py DDK-33
 EOF
 
 # 파일에서
-python3 jira_adf.py DDK-33 -f description.md
+python3 jira_adf.py TMT-33 -f description.md
 
 # 미리보기 (PUT 안 함)
-python3 jira_adf.py DDK-33 -f description.md --dry-run
+python3 jira_adf.py TMT-33 -f description.md --dry-run
 ```
 
 ### 지원 markdown 서브셋
@@ -54,7 +54,7 @@ sys.path.insert(0, '<scripts 경로>')
 from jira_adf import parse_markdown, update_jira_description
 
 doc = parse_markdown("## ✅ 체크리스트\n- [ ] 항목 1\n- [ ] 항목 2")
-status, body = update_jira_description("DDK-33", doc)
+status, body = update_jira_description("TMT-33", doc)
 ```
 
 ### 의존성
