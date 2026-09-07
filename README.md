@@ -16,11 +16,18 @@
 # 1. 마켓플레이스 등록 (manifest의 name = team-marketplace)
 claude plugin marketplace add mash-up-kr/TMT-marketplace
 
-# 2. team-tools 플러그인 설치
+# 2. 플러그인 설치
 claude plugin install team-tools@team-marketplace
+claude plugin install be-oncall-kit@team-marketplace
 ```
 
 설치 후 Claude Code에서 `/team-tools:jira-creator` 또는 자연어로 호출.
+
+온콜 스킬은 봇이 부르지만 사람이 로컬에서 단독으로 써도 됩니다. TMT-BE 워크스페이스에서:
+
+```
+/be-oncall-kit:answer-spring 리뷰 목록 조회가 데이터 늘고 나서 느려졌는데 왜죠
+```
 
 ## 🤖 Codex에서 설치
 
@@ -30,8 +37,9 @@ Codex도 동일한 플러그인·마켓플레이스 개념을 지원합니다(`.
 # 1. 마켓플레이스 등록 (owner/repo 슬러그 — 원격에서 바로)
 codex plugin marketplace add mash-up-kr/TMT-marketplace
 
-# 2. team-tools 플러그인 설치
+# 2. 플러그인 설치
 codex plugin add team-tools@team-marketplace
+codex plugin add be-oncall-kit@team-marketplace
 ```
 
 설치하면 `skills/` 아래 스킬이 **번들 통째로** 딸려옵니다. 설치 후 **Codex 재시작**하면 인식합니다. 업데이트는 `codex plugin marketplace upgrade`.
@@ -45,23 +53,32 @@ TMT-marketplace/                   # GitHub repo (마켓플레이스 루트, 구
 ├── .agents/plugins/
 │   └── marketplace.json          # Codex 마켓플레이스 (대칭)
 └── plugins/
-    └── team-tools/               # 메인 플러그인 (팀 공용 스킬 묶음)
+    ├── team-tools/               # 메인 플러그인 (팀 공용 스킬 묶음)
+    │   ├── .claude-plugin/
+    │   │   └── plugin.json       # Claude 플러그인 매니페스트 (name: team-tools)
+    │   ├── .codex-plugin/
+    │   │   └── plugin.json       # Codex 플러그인 매니페스트 (대칭)
+    │   └── skills/               # 스킬 본문 (Claude·Codex 공유, 단일 소스)
+    │       ├── jira-creator/     # Jira 이슈 생성 (OPS·DDK)
+    │       │   ├── SKILL.md
+    │       │   ├── README.md
+    │       │   └── scripts/jira_adf.py
+    │       └── meeting-minutes/  # 회의록 → Confluence·Jira 파이프라인
+    │           ├── SKILL.md
+    │           ├── README.md
+    │           └── references/
+    └── be-oncall-kit/            # 온콜 봇 스킬 (TMT-oncall이 호출)
         ├── .claude-plugin/
-        │   └── plugin.json       # Claude 플러그인 매니페스트 (name: team-tools)
+        │   └── plugin.json       # Claude 플러그인 매니페스트 (name: be-oncall-kit)
         ├── .codex-plugin/
         │   └── plugin.json       # Codex 플러그인 매니페스트 (대칭)
-        └── skills/               # 스킬 본문 (Claude·Codex 공유, 단일 소스)
-            ├── jira-creator/     # Jira 이슈 생성 (OPS·DDK)
-            │   ├── SKILL.md
-            │   ├── README.md
-            │   └── scripts/jira_adf.py
-            └── meeting-minutes/  # 회의록 → Confluence·Jira 파이프라인
-                ├── SKILL.md
-                ├── README.md
-                └── references/
+        └── skills/               # 역할별 톤 답변 (Claude·Codex 공유)
+            ├── answer-design/    # '디자인' 역할 톤
+            ├── answer-web/       # '웹' 역할 톤
+            └── answer-spring/    # '스프링' 역할 톤
 ```
 
-> 새 스킬 추가 시 `plugins/team-tools/skills/<name>/SKILL.md` 경로에. 자세히는 [CONTRIBUTING.md](./CONTRIBUTING.md).
+> 새 스킬 추가 시 `plugins/<플러그인>/skills/<name>/SKILL.md` 경로에. 팀 공용이면 `team-tools`, 온콜 봇이 부르는 것이면 `be-oncall-kit`. 자세히는 [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## 🤝 기여 방법
 
@@ -137,6 +154,7 @@ rm -rf ~/.claude/plugins/cache/team-marketplace
 
 - [ttalkkak-web](https://github.com/mash-up-kr/ttalkkak-web) — 딸깍 웹 클라이언트
 - [ttalkkak-notify](https://github.com/mash-up-kr/ttalkkak-notify) — Jira/Confluence → Discord 알림 봇
+- [TMT-oncall](https://github.com/mash-up-kr/TMT-oncall) — 장애·문의 자동 대응 봇. `be-oncall-kit` 스킬을 호출한다
 
 ## 📋 운영 채널
 

@@ -1,0 +1,27 @@
+{
+  "name": "be-oncall-kit",
+  "version": "0.1.0",
+  "description": "딸깍팀(Mash-Up 16기) 온콜 봇 스킬 모음 — 역할(디자인·웹·스프링) 톤 답변",
+  "author": {
+    "name": "장민서",
+    "email": "mingdo.dev@gmail.com",
+    "url": "https://github.com/mash-up-kr"
+  },
+  "homepage": "https://github.com/mash-up-kr/TMT-marketplace",
+  "repository": "https://github.com/mash-up-kr/TMT-marketplace",
+  "license": "MIT",
+  "keywords": ["oncall", "incident", "discord", "ttalkkak", "mashup"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "딸깍 BE Oncall Kit",
+    "shortDescription": "온콜 봇 스킬 — 역할 톤에 맞춘 질문 답변",
+    "longDescription": "딸깍팀(Mash-Up 16기) 온콜 봇이 부르는 스킬 모음입니다. TMT-BE 서버에 대한 질문을 묻는 사람의 역할(디자인·웹·스프링)에 맞는 톤과 깊이로 답하고, 코드 수정이 필요한지 판단해 수정 계획을 함께 돌려줍니다. 봇 없이 사람이 로컬에서 단독으로 써도 됩니다.",
+    "developerName": "Mash-Up 16th ttalkkak team",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "defaultPrompt": [
+      "리뷰 목록 조회가 데이터 늘고 나서 느려졌는데 왜죠",
+      "매장 추천 목록 API가 가끔 빈 배열로 오는데 에러인가요"
+    ]
+  }
+}
