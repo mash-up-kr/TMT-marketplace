@@ -23,7 +23,7 @@
     {
       "name": "be-oncall-kit",
       "description": "온콜 봇 스킬 모음 — 역할(디자인·웹·스프링) 톤에 맞춘 질문 답변",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "장민서",
         "email": "mingdo.dev@gmail.com"
