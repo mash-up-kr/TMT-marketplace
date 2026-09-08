@@ -1,11 +1,11 @@
 ---
 name: jira-creator
-description: 딸깍팀(Mash-Up 16기) Jira 이슈 생성 워크플로우. OPS(운영·기획·의사결정) 또는 DDK(개발) 프로젝트에 이슈 작성 시 사용. "딸깍 이슈 만들어줘", "OPS Decision 등록", "DDK Task 만들어줘", "ttalkkak Jira 이슈 생성" 같은 요청에 트리거. 타입별 템플릿(Epic/Story/Task/Subtask/Bug/Decision/Idea), Decision Level 필수 처리, 팀원 매핑, Jira vs Confluence 정보 배분 가이드 포함.
+description: 딸깍팀(Mash-Up 16기) Jira 이슈 생성 워크플로우. OPS(운영·기획·의사결정) 또는 TMT(개발) 프로젝트에 이슈 작성 시 사용. "딸깍 이슈 만들어줘", "OPS Decision 등록", "TMT Task 만들어줘", "ttalkkak Jira 이슈 생성" 같은 요청에 트리거. 타입별 템플릿(Epic/Story/Task/Subtask/Bug/Decision/Idea), Decision Level 필수 처리, 팀원 매핑, Jira vs Confluence 정보 배분 가이드 포함.
 ---
 
 # ttalkkak Jira Issue Creator
 
-딸깍팀(Mash-Up 16기) Jira 이슈 생성 스킬. OPS · DDK 프로젝트에 이슈를 올바른 구조로 만들기 위한 가이드.
+딸깍팀(Mash-Up 16기) Jira 이슈 생성 스킬. OPS · TMT 프로젝트에 이슈를 올바른 구조로 만들기 위한 가이드.
 
 > MCP: `mcp__atlassian__*` 툴 사용 (ttalkkak.atlassian.net)
 > 참고 문서: [Jira 프로젝트 구조 가이드](https://ttalkkak.atlassian.net/wiki/spaces/ttalkkak/pages/18546704)
@@ -41,10 +41,10 @@ Step 6. 링크 연결 (필요 시)
 | 프로젝트 | 역할 | 언제 |
 |---|---|---|
 | **OPS** | 운영·기획·의사결정 | "무엇을 만들지 결정"해야 할 때 |
-| **DDK** | 실제 개발·구현 | "만들기로 결정된 것을 만들" 때 |
+| **TMT** | 실제 개발·구현 | "만들기로 결정된 것을 만들" 때 |
 
 ```
-이슈가 개발 작업(코딩·디자인·테스트)인가?  → DDK
+이슈가 개발 작업(코딩·디자인·테스트)인가?  → TMT
 의사결정·운영·기획 사안인가?              → OPS
 ```
 
@@ -58,7 +58,7 @@ Step 6. 링크 연결 (필요 시)
 | **Meeting** | 회의 결과·후속 액션 트래킹 | (회의록은 Confluence, Jira는 액션만) |
 | **Onboarding** | 신규 합류·계정·툴 셋업 | 합류 시 사용 |
 
-### 이슈 타입 (DDK)
+### 이슈 타입 (TMT)
 
 | 타입 | 계층 | 언제 | 예시 |
 |---|---|---|---|
@@ -79,7 +79,7 @@ Step 6. 링크 연결 (필요 시)
 mcp__atlassian__jira_get_issue(issue_key="OPS-14")
 
 # 연관 이슈 검색 (JQL)
-mcp__atlassian__jira_search(jql="project = DDK AND parent = DDK-9")
+mcp__atlassian__jira_search(jql="project = TMT AND parent = TMT-9")
 
 # Confluence 페이지
 mcp__atlassian__confluence_get_page(page_id="8028173")
@@ -168,9 +168,9 @@ assignee="712020:cdb..."     # account ID
 assignee="wnsvy607@..."      # email
 ```
 
-### Decision Level (`customfield_10147`) — DDK 필수
+### Decision Level (`customfield_10147`) — TMT 필수
 
-DDK 이슈는 **반드시** 설정. 미설정 시 create 실패 ("Decision Level is required").
+TMT 이슈는 **반드시** 설정. 미설정 시 create 실패 ("Decision Level is required").
 
 | 레벨 | 범위 | 결정 장소 |
 |---|---|---|
@@ -199,7 +199,7 @@ additional_fields={"customfield_10181": {"accountId": "712020:cdb6b0e7-..."}}
 
 ```python
 mcp__atlassian__jira_add_watcher(
-    issue_key="DDK-999",
+    issue_key="TMT-999",
     user_id="712020:cdb6b0e7-8a68-4e9d-9d79-511f92898ad6"  # 이준표
 )
 ```
@@ -213,7 +213,7 @@ mcp__atlassian__jira_add_watcher(
 ```
 📋 이슈 생성 확인
 ─────────────────────
-프로젝트:        DDK
+프로젝트:        TMT
 이슈 타입:       Task
 Summary:         [운영] 목 데이터 수집 (선릉역 중심)
 담당자:          hyein396 (정혜인)
@@ -237,7 +237,7 @@ Backup Assignee: 없음
 
 ```python
 mcp__atlassian__jira_create_issue(
-    project_key="DDK",
+    project_key="TMT",
     summary="[운영] 목 데이터 수집 (선릉역 중심)",
     issue_type="Task",
     assignee="hyein396",          # display name
@@ -260,7 +260,7 @@ mcp__atlassian__jira_create_issue(
 | `[프로토타입]` | `[프로토타입] 그룹 맛집 지도 — 5/23 인터뷰 검증용` |
 | `[운영]` | `[운영] 공통 마켓플레이스 레포지토리 생성` |
 | `[기획]` | `[기획] 투트랙 프로토타입 진행 결정` |
-| `[데이터]` | `[데이터] 목 데이터 스키마 v0.1 (DDK-18)` |
+| `[데이터]` | `[데이터] 목 데이터 스키마 v0.1 (TMT-18)` |
 
 ### Description 템플릿 — 타입별
 
@@ -272,7 +272,7 @@ mcp__atlassian__jira_create_issue(
 > - **기본 (권장)** → 이슈 생성 후 [Step 5.5 `scripts/jira_adf.py`](#step-55-인터랙티브-체크박스-adf-tasklist) 로 ADF taskList 변환 (인터랙티브 체크박스)
 > - **빠른 fallback** → 본인이 `- [ ]` → `- ⬜` 로 치환 후 생성 (시각만, 클릭 X)
 
-#### Epic 🏔 (DDK)
+#### Epic 🏔 (TMT)
 
 ```markdown
 ## 🎯 목표
@@ -292,7 +292,7 @@ mcp__atlassian__jira_create_issue(
 - 상위 OPS Decision / 상세 컨셉 / 회의록
 ```
 
-#### Story 📖 (DDK)
+#### Story 📖 (TMT)
 
 ```markdown
 ## 사용자 가치
@@ -307,7 +307,7 @@ mcp__atlassian__jira_create_issue(
 - 상위 Epic / 디자인 / 의존
 ```
 
-#### Task ✅ (DDK · OPS)
+#### Task ✅ (TMT · OPS)
 
 ```markdown
 ## 🎯 목적
@@ -333,7 +333,7 @@ mcp__atlassian__jira_create_issue(
 ## 체크리스트
 - [ ] 단일 산출물 1
 
-## 🔗 부모: [DDK-XX](...)
+## 🔗 부모: [TMT-XX](...)
 ```
 
 #### Bug 🐞
@@ -410,7 +410,7 @@ mcp__atlassian__jira_create_issue(
 
 ```python
 issue = mcp__atlassian__jira_create_issue(
-    project_key="DDK",
+    project_key="TMT",
     summary="...",
     issue_type="Task",
     assignee="...",
@@ -425,7 +425,7 @@ issue = mcp__atlassian__jira_create_issue(
 """,
     additional_fields={"customfield_10147": {"value": "L3"}}
 )
-issue_key = issue["key"]   # 예: "DDK-33"
+issue_key = issue["key"]   # 예: "TMT-33"
 ```
 
 **2단계** — `scripts/jira_adf.py` 로 ADF description 재설정 (Bash):
@@ -463,19 +463,19 @@ MD
 
 자세한 사용법은 [scripts/README.md](./scripts/README.md) 참고.
 
-### Epic 하위 이슈 연결 (DDK)
+### Epic 하위 이슈 연결 (TMT)
 
 Subtask는 `additional_fields.parent`로 상위 이슈 키 전달:
 
 ```python
-additional_fields={"parent": "DDK-9"}  # ✅ 문자열
-# ❌ additional_fields={"parent": {"key": "DDK-9"}}  # 객체 형식 에러
+additional_fields={"parent": "TMT-9"}  # ✅ 문자열
+# ❌ additional_fields={"parent": {"key": "TMT-9"}}  # 객체 형식 에러
 ```
 
 Story/Task를 Epic에 연결할 때도 parent 사용:
 
 ```python
-additional_fields={"parent": "DDK-9"}
+additional_fields={"parent": "TMT-9"}
 ```
 
 ---
@@ -487,7 +487,7 @@ additional_fields={"parent": "DDK-9"}
 ```python
 mcp__atlassian__jira_create_issue_link(
     link_type="관련된 이슈",       # ⚠️ 반드시 한글
-    inward_issue_key="DDK-100",
+    inward_issue_key="TMT-100",
     outward_issue_key="OPS-24"
 )
 ```
@@ -505,14 +505,14 @@ mcp__atlassian__jira_create_issue_link(
 
 ### 단일 Task 생성 (가장 흔한 케이스)
 
-1. 프로젝트 확인 (OPS or DDK)
+1. 프로젝트 확인 (OPS or TMT)
 2. 담당자·Decision Level 질문
 3. 확인 후 생성
 
 ### Epic + 하위 Task 여러 개
 
 1. Epic 먼저 생성 → 키 확인
-2. 각 Task를 `additional_fields.parent = "DDK-<epic키>"` 로 생성
+2. 각 Task를 `additional_fields.parent = "TMT-<epic키>"` 로 생성
 3. 전체 구조 요약 제공
 
 ### Decision 이슈 (OPS)
@@ -551,4 +551,4 @@ mcp__atlassian__jira_create_issue_link(
 - [딸깍 팀 운영 가이드](https://ttalkkak.atlassian.net/wiki/spaces/ttalkkak/pages/15433729)
 - [3. 의사결정 · 합의 룰](https://ttalkkak.atlassian.net/wiki/spaces/ttalkkak/pages/15663105)
 - [Jira 이슈 보드 (OPS)](https://ttalkkak.atlassian.net/jira/software/projects/OPS/boards)
-- [Jira 이슈 보드 (DDK)](https://ttalkkak.atlassian.net/jira/software/projects/DDK/boards)
+- [Jira 이슈 보드 (TMT)](https://ttalkkak.atlassian.net/jira/software/projects/TMT/boards)

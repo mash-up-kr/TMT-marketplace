@@ -5,11 +5,11 @@ Jira 이슈 description을 PUT 한다. markdown `- [ ]` 가 인터랙티브 체�
 
 사용 (CLI):
   # stdin 으로 markdown
-  cat description.md | python jira_adf.py DDK-33
+  cat description.md | python jira_adf.py TMT-33
   # 또는 파일 지정
-  python jira_adf.py DDK-33 -f description.md
+  python jira_adf.py TMT-33 -f description.md
   # 미리보기 (PUT 안 함)
-  python jira_adf.py DDK-33 -f description.md --dry-run
+  python jira_adf.py TMT-33 -f description.md --dry-run
 
 인증 (env):
   ATLASSIAN_EMAIL              필수
@@ -19,7 +19,7 @@ Jira 이슈 description을 PUT 한다. markdown `- [ ]` 가 인터랙티브 체�
 사용 (모듈):
   from jira_adf import parse_markdown, update_jira_description
   doc = parse_markdown(md_text)
-  update_jira_description("DDK-33", doc)
+  update_jira_description("TMT-33", doc)
 
 지원하는 markdown 서브셋:
   - 헤딩: # ## ### #### ##### ######
@@ -246,7 +246,7 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    p.add_argument("issue_key", help="Jira 이슈 키 (예: DDK-33)")
+    p.add_argument("issue_key", help="Jira 이슈 키 (예: TMT-33)")
     p.add_argument("-f", "--file", help="Markdown 파일 경로. 미지정 시 stdin")
     p.add_argument("--dry-run", action="store_true", help="PUT 안 함. ADF JSON만 출력")
     args = p.parse_args()

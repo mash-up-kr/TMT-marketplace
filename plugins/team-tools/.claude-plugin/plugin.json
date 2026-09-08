@@ -1,11 +1,13 @@
 {
   "name": "team-tools",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "딸깍팀(Mash-Up 16기) 공용 Claude Code 스킬 모음",
   "author": {
     "name": "이준표",
     "email": "wnsvy607@naver.com"
   },
   "homepage": "https://github.com/mash-up-kr/TMT-marketplace",
-  "skills": ["./skills/"]
+  "skills": [
+    "./skills/"
+  ]
 }

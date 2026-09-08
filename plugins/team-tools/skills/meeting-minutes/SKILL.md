@@ -1,6 +1,6 @@
 ---
 name: meeting-minutes
-description: 회의 대본이나 Confluence 회의록을 교정된 회의록과 ttalkkak.atlassian.net용 Jira 액션 티켓(DDK/OPS)으로 변환합니다. 회의록 작성/게시, 액션 아이템의 Jira 티켓 분리, 팀원 이름→Atlassian 계정 매핑, 중복 탐지, watcher 멘션을 요청할 때 사용하세요. (적용 범위와 제외 케이스는 아래 본문 참고.)
+description: 회의 대본이나 Confluence 회의록을 교정된 회의록과 ttalkkak.atlassian.net용 Jira 액션 티켓(TMT/OPS)으로 변환합니다. 회의록 작성/게시, 액션 아이템의 Jira 티켓 분리, 팀원 이름→Atlassian 계정 매핑, 중복 탐지, watcher 멘션을 요청할 때 사용하세요. (적용 범위와 제외 케이스는 아래 본문 참고.)
 ---
 
 # meeting-minutes
@@ -24,7 +24,7 @@ description: 회의 대본이나 Confluence 회의록을 교정된 회의록과 
 
 이럴 땐 쓰지 마세요: 오디오 전사/STT 자체(먼저 외부에서 전사 후 대본을 전달), 단건 수동 Jira 티켓 생성, Linear/GitHub 이슈 워크플로.
 
-지원 옵션: `--epic DDK-9`, `--team-lead <name>`, `--space <KEY or spaceId>`.
+지원 옵션: `--epic TMT-9`, `--team-lead <name>`, `--space <KEY or spaceId>`.
 
 ## 절대 규칙 (Non-Negotiables)
 
@@ -33,7 +33,7 @@ description: 회의 대본이나 Confluence 회의록을 교정된 회의록과 
 - `references/spec.md`가 정식입니다. stage 파일이 spec과 충돌하면 spec을 따르세요.
 - 회의록은 담당자, 기한, 결정사항, 액션 텍스트의 유일한 진실원입니다 — 사실을 절대 지어내지 마세요.
 - 해당하는 확인 게이트를 통과하기 전에 Jira/Confluence에 절대 쓰지 마세요 (spec.md → Confirmation Gates).
-- 생성/스킵 규칙(`프로젝트 미정`, 담당자 불명, accountId 없음, DONE, 중복), account-field 및 멘션 규칙, OPS-대-DDK-Epic 교차 프로젝트 규칙은 각각 spec.md / people.md에 한 번씩 정의되어 있습니다 — 그곳에서 적용하세요.
+- 생성/스킵 규칙(`프로젝트 미정`, 담당자 불명, accountId 없음, DONE, 중복), account-field 및 멘션 규칙, OPS-대-TMT-Epic 교차 프로젝트 규칙은 각각 spec.md / people.md에 한 번씩 정의되어 있습니다 — 그곳에서 적용하세요.
 
 ## 단계 산출물
 
@@ -42,7 +42,7 @@ description: 회의 대본이나 Confluence 회의록을 교정된 회의록과 
 
 ## 리소스
 
-- `references/spec.md` - 정식 인테이크 필드, 게이트, 스키마, DDK/OPS 라우팅, 이름 정규화, 검증 규칙, Atlassian 제약.
+- `references/spec.md` - 정식 인테이크 필드, 게이트, 스키마, TMT/OPS 라우팅, 이름 정규화, 검증 규칙, Atlassian 제약.
 - `references/people.md` - 정식 인물/계정 표(이름, accountId, displayName, 별칭)와 계정 규칙. 팀이 바뀌면 여기를 수정하세요.
 - `references/stage-b-meeting-doc.md` - 대본 → 회의 마크다운.
 - `references/stage-c-jira.md` - 회의 마크다운 → Confluence/Jira.

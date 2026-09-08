@@ -59,7 +59,7 @@ TMT-marketplace/                   # GitHub repo (마켓플레이스 루트, 구
     │   ├── .codex-plugin/
     │   │   └── plugin.json       # Codex 플러그인 매니페스트 (대칭)
     │   └── skills/               # 스킬 본문 (Claude·Codex 공유, 단일 소스)
-    │       ├── jira-creator/     # Jira 이슈 생성 (OPS·DDK)
+    │       ├── jira-creator/     # Jira 이슈 생성 (OPS·TMT)
     │       │   ├── SKILL.md
     │       │   ├── README.md
     │       │   └── scripts/jira_adf.py
@@ -155,8 +155,9 @@ rm -rf ~/.claude/plugins/cache/team-marketplace
 
 ## 🔗 관련 레포
 
-- [ttalkkak-web](https://github.com/mash-up-kr/ttalkkak-web) — 딸깍 웹 클라이언트
-- [ttalkkak-notify](https://github.com/mash-up-kr/ttalkkak-notify) — Jira/Confluence → Discord 알림 봇
+- [TMT-FE](https://github.com/mash-up-kr/TMT-FE) — 딸깍 웹 클라이언트
+- [TMT-BE](https://github.com/mash-up-kr/TMT-BE) — 딸깍 서버
+- [TMT-notify](https://github.com/mash-up-kr/TMT-notify) — Jira/Confluence → Discord 알림 봇
 - [TMT-oncall](https://github.com/mash-up-kr/TMT-oncall) — 장애·문의 자동 대응 봇. `be-oncall-kit` 스킬을 호출한다
 
 ## 📋 운영 채널
