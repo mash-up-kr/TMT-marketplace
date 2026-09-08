@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "팀 공용 Claude Code 스킬·에이전트·자동화 마켓플레이스",
-    "version": "0.2.0"
+    "version": "0.3.0"
   },
   "plugins": [
     {
@@ -18,6 +18,17 @@
         "email": "wnsvy607@naver.com"
       },
       "source": "./plugins/team-tools",
+      "category": "productivity"
+    },
+    {
+      "name": "be-oncall-kit",
+      "description": "온콜 봇 스킬 모음 — 역할(디자인·웹·스프링) 톤에 맞춘 질문 답변",
+      "version": "0.1.0",
+      "author": {
+        "name": "장민서",
+        "email": "mingdo.dev@gmail.com"
+      },
+      "source": "./plugins/be-oncall-kit",
       "category": "productivity"
     }
   ]

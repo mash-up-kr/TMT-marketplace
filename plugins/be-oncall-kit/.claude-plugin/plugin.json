@@ -1,0 +1,11 @@
+{
+  "name": "be-oncall-kit",
+  "version": "0.1.0",
+  "description": "딸깍팀(Mash-Up 16기) 온콜 봇 스킬 모음 — 역할(디자인·웹·스프링) 톤 답변",
+  "author": {
+    "name": "장민서",
+    "email": "mingdo.dev@gmail.com"
+  },
+  "homepage": "https://github.com/mash-up-kr/TMT-marketplace",
+  "skills": ["./skills/"]
+}
